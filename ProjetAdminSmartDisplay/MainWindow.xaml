@@ -1,0 +1,32 @@
+﻿<Window x:Class="ProjetAdminSmartDisplay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjetAdminSmartDisplay"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <!-- Définitions des colonnes : une pour les bâtiments, une pour les détails -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <!-- Colonne des bâtiments -->
+            <ColumnDefinition Width="3*" />
+            <!-- Colonne des détails -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Liste des Bâtiments en tant que boutons -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <Button Content="Bâtiment KM" Click="BuildingButton_Click" Tag="KM" Margin="0,5" />
+            <Button Content="Bâtiment A" Click="BuildingButton_Click" Tag="A" Margin="0,5" />
+            <Button Content="Bâtiment B" Click="BuildingButton_Click" Tag="B" Margin="0,5" />
+            <!-- Ajoute d'autres boutons pour les bâtiments ici -->
+        </StackPanel>
+
+        <!-- Section de droite pour afficher les étages et salles -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <Button Content="Créer un Batiment" Click="CreateFloorButton_Click" Margin="0,0,0,10" />
+            <TreeView Name="treeViewDetails" />
+        </StackPanel>
+    </Grid>
+</Window>

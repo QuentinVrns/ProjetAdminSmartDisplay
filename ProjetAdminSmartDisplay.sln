@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetAdminSmartDisplay", "ProjetAdminSmartDisplay\ProjetAdminSmartDisplay.csproj", "{3D756DBA-2438-4AC8-85F7-487DF51781EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D756DBA-2438-4AC8-85F7-487DF51781EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D756DBA-2438-4AC8-85F7-487DF51781EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D756DBA-2438-4AC8-85F7-487DF51781EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D756DBA-2438-4AC8-85F7-487DF51781EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {817298DE-CBEC-4B0A-9AEC-39D420848E67}
+	EndGlobalSection
+EndGlobal
