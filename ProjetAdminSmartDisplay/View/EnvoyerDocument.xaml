@@ -2,51 +2,214 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Envoyer un Document" Height="450" Width="800">
+    <Window.Resources>
+        <!-- Styles et ressources importés depuis EcranView -->
+
+        <!-- Style pour les TextBlocks -->
+        <Style x:Key="LabelTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,10,0,5"/>
+            <!-- Effet d'ombre portée pour le texte -->
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="2" Opacity="0.7" BlurRadius="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style pour les CheckBox -->
+        <Style x:Key="CustomCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="2" Opacity="0.7" BlurRadius="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style pour les Boutons -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <!-- Dégradé pour le fond du bouton -->
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FF444444" Offset="0"/>
+                        <GradientStop Color="#FF222222" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="Orange"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <!-- Ombre portée plus prononcée -->
+                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="4" Opacity="0.7" BlurRadius="5"/>
+                </Setter.Value>
+            </Setter>
+            <!-- Coins arrondis -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Arrière-plan pour les côtés -->
+        <LinearGradientBrush x:Key="SideBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FF000000" Offset="0"/>
+            <GradientStop Color="#FF1A1A1A" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- Style pour le bouton émoji -->
+        <Style x:Key="EmojiButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="10"/>
+            <!-- Effet d'ombre portée pour le bouton -->
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="2" Opacity="0.7" BlurRadius="5"/>
+                </Setter.Value>
+            </Setter>
+            <!-- Effet au survol -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <!-- Définition de colonnes : une pour la sélection des salles, l'autre pour le drag-and-drop -->
+        <!-- Définition des colonnes -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
-            <!-- Colonne pour la sélection des salles -->
+            <!-- Colonne gauche pour la sélection des salles -->
             <ColumnDefinition Width="*"/>
-            <!-- Colonne pour le drag-and-drop -->
+            <!-- Zone principale -->
         </Grid.ColumnDefinitions>
 
-        <!-- Partie gauche pour sélectionner les salles -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20">
-            <TextBlock Text="Sélectionnez les salles :" FontSize="16" Margin="0,10,0,5"/>
-            <!-- Liste des salles avec CheckBox -->
-            <ItemsControl x:Name="SalleSelectionControl">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <!-- Liaison de la CheckBox à la propriété IsSelected de chaque instance de Classe -->
-                        <CheckBox Content="{Binding NomSalle}" IsChecked="{Binding IsSelected}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
+        <!-- Côté gauche avec arrière-plan et effet -->
+        <Border Grid.Column="0" Background="{StaticResource SideBackground}">
+            <Border.Effect>
+                <!-- Lueur externe pour ajouter du relief -->
+                <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.8" BlurRadius="10"/>
+            </Border.Effect>
+            <!-- Grid pour organiser le contenu -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    
+                    
+                </Grid.RowDefinitions>
 
-        <!-- Partie droite pour le drag-and-drop -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20">
-            <TextBlock Text="Déposez vos fichiers ici :" FontSize="16" Margin="0,10,0,5"/>
+                <!-- Bouton avec émoji pour revenir à la MainWindow -->
+                <Button Grid.Row="1" Content="🏠"
+                        Width="50"
+                        Height="50"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="10"
+                        Click="RetourAccueil_Click"
+                        Style="{StaticResource EmojiButtonStyle}"/>
 
-            <!-- Zone de drag-and-drop -->
-            <Border BorderBrush="Black" BorderThickness="2" Background="LightGray" Height="200" AllowDrop="True"
-                    Drop="OnFileDrop" DragOver="OnFileDragOver">
-                <TextBlock Text="Glissez et déposez les fichiers ici" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <!-- Sélection des salles -->
+                <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20">
+                    <TextBlock Text="Sélectionnez les salles :" Style="{StaticResource LabelTextStyle}"/>
+                    <!-- Liste des salles avec CheckBox -->
+                    <ItemsControl x:Name="SalleSelectionControl">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!-- Liaison de la CheckBox à la propriété IsSelected de chaque instance de Classe -->
+                                <CheckBox Content="{Binding NomSalle}" IsChecked="{Binding IsSelected}" Style="{StaticResource CustomCheckBoxStyle}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Séparateur entre le côté gauche et la zone principale -->
+        <Grid Grid.Column="0" HorizontalAlignment="Right" Width="15">
+            <!-- Bordure avec dégradé pour l'effet 3D -->
+            <Border Width="15">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent" Offset="0"/>
+                        <GradientStop Color="#FF555555" Offset="0.3"/>
+                        <GradientStop Color="#FF222222" Offset="0.5"/>
+                        <GradientStop Color="#FF555555" Offset="0.7"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
             </Border>
+            <!-- Bordure pour l'ombre portée -->
+            <Border Width="15">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="5" Opacity="0.6" BlurRadius="10"/>
+                </Border.Effect>
+            </Border>
+        </Grid>
 
-            <!-- Affichage des fichiers sélectionnés -->
-            <TextBlock Text="Fichiers sélectionnés :" FontSize="16" Margin="0,20,0,5"/>
-            <ItemsControl x:Name="FilesListControl">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" Margin="5"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+        <!-- Zone principale -->
+        <Border Grid.Column="1" Background="{StaticResource SideBackground}">
+            <Border.Effect>
+                <!-- Lueur externe pour ajouter du relief -->
+                <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.8" BlurRadius="10"/>
+            </Border.Effect>
+            <!-- Contenu principal -->
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20">
+                <TextBlock Text="Déposez vos fichiers ici :" Style="{StaticResource LabelTextStyle}"/>
 
-            <!-- Bouton pour envoyer les fichiers -->
-            <Button Content="Envoyer" Width="100" Margin="10" Click="OnSendFilesClick"/>
-        </StackPanel>
+                <!-- Zone de drag-and-drop -->
+                <Border BorderBrush="Orange" BorderThickness="2" Background="#FF2A2A2A" Height="200" Width="410" AllowDrop="True"
+                        Drop="OnFileDrop" DragOver="OnFileDragOver">
+                    <Border.Effect>
+                        <!-- Ombre portée pour le relief -->
+                        <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" Opacity="0.7" BlurRadius="10"/>
+                    </Border.Effect>
+                    <TextBlock Text="Glissez et déposez les fichiers ici"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="White"
+                               FontSize="16"
+                               TextAlignment="Center"
+                               Margin="10"/>
+                </Border>
+
+                <!-- Affichage des fichiers sélectionnés -->
+                <TextBlock Text="Fichiers sélectionnés :" Style="{StaticResource LabelTextStyle}" Margin="0,20,0,5"/>
+                <ItemsControl x:Name="FilesListControl">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" Margin="5" Foreground="White" FontSize="16"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Bouton pour envoyer les fichiers -->
+                <Button Content="Envoyer" Style="{StaticResource CustomButtonStyle}" Click="OnSendFilesClick" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

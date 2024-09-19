@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using ProjetAdminSmartDisplay.Model;
+using System.Net;
 
 namespace ProjetAdminSmartDisplay
 {
@@ -58,9 +55,8 @@ namespace ProjetAdminSmartDisplay
         }
 
         // Envoi des fichiers aux salles sélectionnées
-        private async void OnSendFilesClick(object sender, RoutedEventArgs e)
+        private void OnSendFilesClick(object sender, RoutedEventArgs e)
         {
-            // Récupérer les salles sélectionnées (celles dont IsSelected est true)
             var selectedSalles = _classes.FindAll(salle => salle.IsSelected);
 
             if (selectedSalles.Count == 0 || _selectedFiles.Count == 0)
@@ -73,15 +69,7 @@ namespace ProjetAdminSmartDisplay
             {
                 foreach (var file in _selectedFiles)
                 {
-                    try
-                    {
-                        // Envoie le fichier vers le dossier de la salle sélectionnée
-                        await UploadFileToSalle(salle.NomSalle, file);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Erreur lors de l'envoi du fichier : {ex.Message}");
-                    }
+                    UploadFileToFtp(salle.NomSalle, file);
                 }
             }
 
@@ -90,59 +78,79 @@ namespace ProjetAdminSmartDisplay
             FilesListControl.ItemsSource = null; // Réinitialise la liste des fichiers
         }
 
-
-
-        // Méthode pour envoyer le fichier vers la salle via HTTP POST
-        private async Task UploadFileToSalle(string salleName, string filePath)
+        private void UploadFileToFtp(string salleName, string filePath)
         {
-            string uploadUrl = $"https://taha.alwaysdata.net/image/{salleName}"; // URL pour envoyer le fichier vers la salle
-
-            using (HttpClient client = new HttpClient())
+            try
             {
-                // Ajouter les informations d'authentification de base
-                var byteArray = System.Text.Encoding.ASCII.GetBytes("username:password");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                // Construire le chemin complet vers appsettings.json
+                string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
 
-                using (var formContent = new MultipartFormDataContent())
+                // Vérifier si le fichier de configuration existe
+                if (!File.Exists(configFilePath))
                 {
-                    try
-                    {
-                        // Lire le contenu du fichier à partir du chemin local
-                        var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
-                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("multipart/form-data");
+                    MessageBox.Show("Le fichier de configuration appsettings.json est introuvable.");
+                    return;
+                }
 
-                        // Ajouter le fichier au formulaire
-                        formContent.Add(fileContent, "file", Path.GetFileName(filePath));
+                // Charger les informations d'identification depuis le fichier de configuration
+                var configJson = File.ReadAllText(configFilePath);
+                var config = JsonConvert.DeserializeObject<FtpConfig>(configJson);
 
-                        // Affiche l'URL d'envoi pour vérifier qu'elle est correcte
-                        MessageBox.Show($"Envoi du fichier vers : {uploadUrl}");
+                string ftpUsername = config.FtpCredentials.Username;
+                string ftpPassword = config.FtpCredentials.Password;
 
-                        // Envoyer la requête POST vers le serveur
-                        HttpResponseMessage response = await client.PostAsync(uploadUrl, formContent);
+                // Vérifier que les informations ont été chargées
+                if (string.IsNullOrEmpty(ftpUsername) || string.IsNullOrEmpty(ftpPassword))
+                {
+                    MessageBox.Show("Les identifiants FTP ne sont pas définis dans le fichier de configuration.");
+                    return;
+                }
 
-                        // Afficher le code de statut pour voir la réponse du serveur
-                        MessageBox.Show($"Réponse du serveur : {response.StatusCode} - {response.ReasonPhrase}");
+                // Construire l'URL FTP complète
+                string ftpUrl = $"ftp://quentinvrns.fr/Document/{salleName}/{Path.GetFileName(filePath)}";
 
-                        if (response.IsSuccessStatusCode)
-                        {
-                            MessageBox.Show($"Fichier {Path.GetFileName(filePath)} envoyé avec succès à {salleName}.");
-                        }
-                        else
-                        {
-                            // Affiche le contenu de la réponse en cas d'erreur
-                            string responseContent = await response.Content.ReadAsStringAsync();
-                            throw new Exception($"Erreur lors de l'envoi du fichier : {response.ReasonPhrase}\nDétails : {responseContent}");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Affiche l'erreur complète avec le message et la pile d'exécution
-                        MessageBox.Show($"Erreur lors de l'envoi du fichier {Path.GetFileName(filePath)} à {salleName} : {ex.Message}\n\n{ex.StackTrace}");
-                    }
+                // Créer une requête FTP
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                request.Method = WebRequestMethods.Ftp.UploadFile;
+
+                // Fournir les informations d'identification
+                request.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+
+                // Activer le mode passif si nécessaire
+                request.UsePassive = true;
+
+                // Lire le contenu du fichier
+                byte[] fileContents;
+                using (FileStream sourceStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    fileContents = new byte[sourceStream.Length];
+                    sourceStream.Read(fileContents, 0, fileContents.Length);
+                }
+
+                // Obtenir le flux de la requête
+                request.ContentLength = fileContents.Length;
+                using (Stream requestStream = request.GetRequestStream())
+                {
+                    requestStream.Write(fileContents, 0, fileContents.Length);
+                }
+
+                // Obtenir la réponse du serveur
+                using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+                {
+                    MessageBox.Show($"Upload du fichier terminé, statut : {response.StatusDescription}");
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de l'envoi du fichier {Path.GetFileName(filePath)} : {ex.Message}\n{ex.StackTrace}");
+            }
+        }
+
+        private void RetourAccueil_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }
-
-

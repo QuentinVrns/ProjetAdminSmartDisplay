@@ -61,6 +61,7 @@
     <Compile Include="Model\Batiment.cs" />
     <Compile Include="Model\Classe.cs" />
     <Compile Include="Model\Etage.cs" />
+    <Compile Include="Model\FtpConfig.cs" />
     <Compile Include="View\EcranView.xaml.cs">
       <DependentUpon>EcranView.xaml</DependentUpon>
     </Compile>
@@ -106,6 +107,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

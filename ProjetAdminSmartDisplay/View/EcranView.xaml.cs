@@ -5,7 +5,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ProjetAdminSmartDisplay.Model;  // Ajout du modèle
+using System.Windows.Input;
+using System.Windows.Media;
+using ProjetAdminSmartDisplay.Model;  // Assurez-vous que vos modèles sont dans ce namespace
 
 namespace ProjetAdminSmartDisplay
 {
@@ -115,13 +117,43 @@ namespace ProjetAdminSmartDisplay
             }
         }
 
+        // Gestionnaire d'événement pour le clic sur le bouton émoji pour revenir à la MainWindow
+        private void RetourAccueil_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
 
-    }
+            // Fermer la fenêtre actuelle
+            this.Close();
+        }
 
-    // Modèle pour désérialiser le fichier image.json
-    public class ImageData
-    {
-        [JsonProperty("images")]
-        public List<string> Images { get; set; }
+        // Gestionnaire d'événement pour ouvrir le ComboBox lors du clic n'importe où
+        private void ComboBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Trouver le ComboBox parent
+            ComboBox comboBox = FindParent<ComboBox>((DependencyObject)e.OriginalSource);
+            if (comboBox != null)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+        }
+
+        // Méthode utilitaire pour trouver le parent d'un type spécifique
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            if (child == null) return null;
+
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParent<T>(parentObject);
+            }
+        }
     }
 }

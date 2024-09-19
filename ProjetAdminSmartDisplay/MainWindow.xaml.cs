@@ -23,6 +23,7 @@ namespace ProjetAdminSmartDisplay
         {
             EnvoyerDocumentView envoyerDocumentView = new EnvoyerDocumentView();
             envoyerDocumentView.Show();  // Ouvre la fenêtre "Envoyer un document"
+            this.Close();
         }
     }
 }
