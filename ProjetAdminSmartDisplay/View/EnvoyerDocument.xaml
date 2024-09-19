@@ -1,0 +1,52 @@
+﻿<Window x:Class="ProjetAdminSmartDisplay.EnvoyerDocumentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Envoyer un Document" Height="450" Width="800">
+    <Grid>
+        <!-- Définition de colonnes : une pour la sélection des salles, l'autre pour le drag-and-drop -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <!-- Colonne pour la sélection des salles -->
+            <ColumnDefinition Width="*"/>
+            <!-- Colonne pour le drag-and-drop -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Partie gauche pour sélectionner les salles -->
+        <StackPanel Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20">
+            <TextBlock Text="Sélectionnez les salles :" FontSize="16" Margin="0,10,0,5"/>
+            <!-- Liste des salles avec CheckBox -->
+            <ItemsControl x:Name="SalleSelectionControl">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Liaison de la CheckBox à la propriété IsSelected de chaque instance de Classe -->
+                        <CheckBox Content="{Binding NomSalle}" IsChecked="{Binding IsSelected}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Partie droite pour le drag-and-drop -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20">
+            <TextBlock Text="Déposez vos fichiers ici :" FontSize="16" Margin="0,10,0,5"/>
+
+            <!-- Zone de drag-and-drop -->
+            <Border BorderBrush="Black" BorderThickness="2" Background="LightGray" Height="200" AllowDrop="True"
+                    Drop="OnFileDrop" DragOver="OnFileDragOver">
+                <TextBlock Text="Glissez et déposez les fichiers ici" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+
+            <!-- Affichage des fichiers sélectionnés -->
+            <TextBlock Text="Fichiers sélectionnés :" FontSize="16" Margin="0,20,0,5"/>
+            <ItemsControl x:Name="FilesListControl">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="5"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Bouton pour envoyer les fichiers -->
+            <Button Content="Envoyer" Width="100" Margin="10" Click="OnSendFilesClick"/>
+        </StackPanel>
+    </Grid>
+</Window>
