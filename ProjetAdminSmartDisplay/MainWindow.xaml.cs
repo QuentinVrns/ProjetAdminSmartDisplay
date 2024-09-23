@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjetAdminSmartDisplay.View;
+using System;
 using System.Windows;
 
 namespace ProjetAdminSmartDisplay
@@ -24,6 +25,14 @@ namespace ProjetAdminSmartDisplay
             EnvoyerDocumentView envoyerDocumentView = new EnvoyerDocumentView();
             envoyerDocumentView.Show();  // Ouvre la fenêtre "Envoyer un document"
             this.Close();
+        }
+
+        private void AddClasse_Click(object sender, RoutedEventArgs e)
+        {
+            AddClasse addClasse = new AddClasse();
+            addClasse.Show();
+            this.Close();
+            
         }
     }
 }

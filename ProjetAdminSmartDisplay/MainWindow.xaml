@@ -89,6 +89,9 @@
                 <Button Content="Envoyer un Document"
                         Style="{StaticResource CustomButtonStyle}"
                         Click="EnvoyerDocumentButton_Click"/>
+                <Button Content="AjouterUneClasse"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Click="AddClasse_Click"/>
             </StackPanel>
         </Border>
 
