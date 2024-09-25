@@ -136,7 +136,7 @@
                 <!-- Logo et titre alignés à droite et centrés verticalement -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
                     <!-- Logo du projet -->
-                    <Image Source="Ressource/LogoSmart.png" Width="450" Height="250" Stretch="Uniform"/>
+                    <Image Source="Ressource/LogoAppli.jpg" Width="450" Height="250" Stretch="Uniform"/>
                     <!-- Nom du projet -->
                     <TextBlock Text="ProjetSmartDisplay"
                                Foreground="White"
