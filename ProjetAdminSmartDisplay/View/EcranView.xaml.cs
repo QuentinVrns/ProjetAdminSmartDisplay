@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace ProjetAdminSmartDisplay
 {
-    public partial class EcranView : Window
+    public partial class EcranView : UserControl
     {
         private HttpClient _httpClient = new HttpClient();
         private List<Batiment> _batiments = new List<Batiment>();
@@ -27,6 +27,11 @@ namespace ProjetAdminSmartDisplay
         public EcranView()
         {
             InitializeComponent();
+
+            // Configurer le token d'autorisation pour toutes les requêtes HTTP
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Mjc2MzA0ODMsImV4cCI6MTAxNzI3NjMwNDgzLCJkYXRhIjp7ImlkIjoxLCJ1c2VybmFtZSI6IlF1ZW50aW4ifX0.k7m0hTQ4-6H7mEI9IPcwvtGdjxqk7q_vip-dRCjwavk");
+
             LoadBatiments();
         }
 
@@ -133,7 +138,6 @@ namespace ProjetAdminSmartDisplay
         }
 
         // Méthode pour charger les images d'une salle spécifique
-        // Méthode pour charger les images d'une salle spécifique
         private async Task LoadImagesForClasse(string nomSalle)
         {
             string baseImageUrl = "http://quentinvrns.fr/Document/"; // Utiliser HTTP si possible
@@ -144,23 +148,6 @@ namespace ProjetAdminSmartDisplay
 
             try
             {
-                // Charger les informations d'identification depuis appsettings.json
-                string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
-                if (!File.Exists(configFilePath))
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show("Le fichier de configuration appsettings.json est introuvable.");
-                    });
-                    return;
-                }
-                var configJson = File.ReadAllText(configFilePath);
-                var config = JsonConvert.DeserializeObject<FtpConfig>(configJson);
-
-                string ftpUsername = config.FtpCredentials.Username;
-                string ftpPassword = config.FtpCredentials.Password;
-
-                // Télécharger image.json depuis HTTP
                 using (HttpClient client = new HttpClient())
                 {
                     var response = await client.GetStringAsync(listUrl).ConfigureAwait(false);
@@ -237,11 +224,11 @@ namespace ProjetAdminSmartDisplay
         // Gestionnaire d'événement pour le clic sur le bouton émoji pour revenir à la MainWindow
         private void RetourAccueil_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-
-            // Fermer la fenêtre actuelle
-            this.Close();
+            // Supposons que le UserControl soit chargé dans un ContentControl
+            if (this.Parent is ContentControl contentControl)
+            {
+                contentControl.Content = null; // Vous pouvez revenir à une vue par défaut ou à la page d'accueil
+            }
         }
 
         // Gestionnaire d'événement pour ouvrir le ComboBox lors du clic n'importe où
@@ -434,8 +421,6 @@ namespace ProjetAdminSmartDisplay
             }
         }
     }
-
-    
 
     // Classe pour représenter un élément d'image avec chargement asynchrone
     public class ImageItem : INotifyPropertyChanged

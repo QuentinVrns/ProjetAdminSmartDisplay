@@ -17,7 +17,7 @@ namespace ProjetAdminSmartDisplay.View
     /// <summary>
     /// Logique d'interaction pour AddClasse.xaml
     /// </summary>
-    public partial class AddClasse : Window
+    public partial class AddClasse : UserControl
     {
         public AddClasse()
         {

@@ -11,28 +11,34 @@ namespace ProjetAdminSmartDisplay
             InitializeComponent();
         }
 
-        // Méthode pour ouvrir la vue EcranView
         private void EcranButton_Click(object sender, RoutedEventArgs e)
         {
-            EcranView ecranView = new EcranView();
-            ecranView.Show();
-            this.Close();  // Optionnel, ferme la fenêtre principale
+            // Charger EcranView dans le ContentControl et masquer le logo et le titre
+            MainContentControl.Content = new EcranView();
+            LogoStackPanel.Visibility = Visibility.Collapsed;
         }
 
-        // Méthode pour ouvrir la vue EnvoyerDocumentView
         private void EnvoyerDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            EnvoyerDocumentView envoyerDocumentView = new EnvoyerDocumentView();
-            envoyerDocumentView.Show();  // Ouvre la fenêtre "Envoyer un document"
-            this.Close();
+            // Charger EnvoyerDocumentView dans le ContentControl et masquer le logo et le titre
+            MainContentControl.Content = new EnvoyerDocumentView();
+            LogoStackPanel.Visibility = Visibility.Collapsed;
         }
 
         private void AddClasse_Click(object sender, RoutedEventArgs e)
         {
-            AddClasse addClasse = new AddClasse();
-            addClasse.Show();
-            this.Close();
-            
+            // Charger une autre vue et masquer le logo et le titre
+            MainContentControl.Content = new AddClasse();
+            LogoStackPanel.Visibility = Visibility.Collapsed;
+        }
+
+        
+
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Vider le contenu du ContentControl et réafficher le logo et le titre
+            MainContentControl.Content = null;
+            LogoStackPanel.Visibility = Visibility.Visible; // Afficher le logo et le titre
         }
     }
 }

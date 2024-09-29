@@ -8,17 +8,24 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using ProjetAdminSmartDisplay.Model;
+using System.Windows.Controls;
 
 namespace ProjetAdminSmartDisplay
 {
-    public partial class EnvoyerDocumentView : Window
+    public partial class EnvoyerDocumentView : UserControl
     {
+        private HttpClient _httpClient = new HttpClient();
         private List<Classe> _classes = new List<Classe>();
         private List<string> _selectedFiles = new List<string>(); // Liste des fichiers sélectionnés
 
         public EnvoyerDocumentView()
         {
             InitializeComponent();
+
+            // Configurer le token d'autorisation pour toutes les requêtes HTTP
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Mjc2MzA0ODMsImV4cCI6MTAxNzI3NjMwNDgzLCJkYXRhIjp7ImlkIjoxLCJ1c2VybmFtZSI6IlF1ZW50aW4ifX0.k7m0hTQ4-6H7mEI9IPcwvtGdjxqk7q_vip-dRCjwavk");
+
             LoadSalles(); // Charge la liste des salles
         }
 
@@ -26,13 +33,17 @@ namespace ProjetAdminSmartDisplay
         private async void LoadSalles()
         {
             string url = "https://quentinvrns.alwaysdata.net/getAllClasse"; // API pour récupérer les salles
-            using (HttpClient client = new HttpClient())
+            try
             {
-                var response = await client.GetStringAsync(url);
+                var response = await _httpClient.GetStringAsync(url);
                 _classes = JsonConvert.DeserializeObject<List<Classe>>(response);
 
                 // Lier les salles à l'ItemsControl pour afficher les CheckBox
                 SalleSelectionControl.ItemsSource = _classes;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors du chargement des salles : {ex.Message}");
             }
         }
 
@@ -205,11 +216,11 @@ namespace ProjetAdminSmartDisplay
 
         private void RetourAccueil_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            // Supposons que le UserControl soit chargé dans un ContentControl
+            if (this.Parent is ContentControl contentControl)
+            {
+                contentControl.Content = null; // Vous pouvez revenir à une vue par défaut ou à la page d'accueil
+            }
         }
     }
-
-    
 }
