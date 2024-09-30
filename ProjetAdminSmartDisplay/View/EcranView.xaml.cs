@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -9,11 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ProjetAdminSmartDisplay.Model;
 using System.Linq;
+using System.ComponentModel;
 
 namespace ProjetAdminSmartDisplay
 {
@@ -23,19 +21,20 @@ namespace ProjetAdminSmartDisplay
         private List<Batiment> _batiments = new List<Batiment>();
         private List<Etage> _etages = new List<Etage>();
         private List<Classe> _classes = new List<Classe>();
+        private FtpConfig _ftpConfig;
 
         public EcranView()
         {
             InitializeComponent();
-
-            // Configurer le token d'autorisation pour toutes les requêtes HTTP
+            // Restore the token for authorization in HTTP requests
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Mjc2MzA0ODMsImV4cCI6MTAxNzI3NjMwNDgzLCJkYXRhIjp7ImlkIjoxLCJ1c2VybmFtZSI6IlF1ZW50aW4ifX0.k7m0hTQ4-6H7mEI9IPcwvtGdjxqk7q_vip-dRCjwavk");
-
+            _httpClient.DefaultRequestHeaders.Add("Authorization",
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Mjc2MzA0ODMsImV4cCI6MTAxNzI3NjMwNDgzLCJkYXRhIjp7ImlkIjoxLCJ1c2VybmFtZSI6IlF1ZW50aW4ifX0.k7m0hTQ4-6H7mEI9IPcwvtGdjxqk7q_vip-dRCjwavk");
+            LoadFtpConfig(); // Load FTP credentials
             LoadBatiments();
         }
 
-        // Méthode pour charger les bâtiments
+        // Load buildings
         private async void LoadBatiments()
         {
             string url = "https://quentinvrns.alwaysdata.net/getAllBatiment";
@@ -50,14 +49,11 @@ namespace ProjetAdminSmartDisplay
             }
             catch (Exception ex)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show($"Erreur lors du chargement des bâtiments : {ex.Message}");
-                });
+                MessageBox.Show($"Erreur lors du chargement des bâtiments : {ex.Message}");
             }
         }
 
-        // Méthode appelée lors de la sélection d'un bâtiment
+        // When a building is selected
         private async void OnBatimentSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (BatimentComboBox.SelectedValue is int batimentId)
@@ -71,22 +67,18 @@ namespace ProjetAdminSmartDisplay
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         EtageComboBox.ItemsSource = filteredEtages;
-                        ClasseComboBox.ItemsSource = null;  // Réinitialiser les classes
-                        InfoClasseTextBlock.Text = "";
+                        RoomsControl.ItemsSource = null;
                         ImagesControl.ItemsSource = null;
                     });
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show($"Erreur lors du chargement des étages : {ex.Message}");
-                    });
+                    MessageBox.Show($"Erreur lors du chargement des étages : {ex.Message}");
                 }
             }
         }
 
-        // Méthode appelée lors de la sélection d'un étage
+        // When an etage is selected
         private async void OnEtageSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (EtageComboBox.SelectedValue is int etageId)
@@ -99,114 +91,67 @@ namespace ProjetAdminSmartDisplay
                     var filteredClasses = _classes.FindAll(classe => classe.EtageId == etageId);
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        ClasseComboBox.ItemsSource = filteredClasses;
-                        InfoClasseTextBlock.Text = "";
-                        ImagesControl.ItemsSource = null;
+                        RoomsControl.ItemsSource = filteredClasses;
                     });
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show($"Erreur lors du chargement des classes : {ex.Message}");
-                    });
+                    MessageBox.Show($"Erreur lors du chargement des classes : {ex.Message}");
                 }
             }
         }
 
-        // Méthode appelée lors de la sélection d'une classe
-        private async void OnClasseSelectionChanged(object sender, SelectionChangedEventArgs e)
+        // Method to handle room selection
+        private async void OnRoomSelected_Click(object sender, RoutedEventArgs e)
         {
-            if (ClasseComboBox.SelectedItem is Classe selectedClasse)
+            if (sender is Button button && button.DataContext is Classe selectedClasse)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    InfoClasseTextBlock.Text = $"L'écran de la classe {selectedClasse.NomSalle} s'affiche.";
-                });
-
-                // Récupérer les images associées à la salle
                 await LoadImagesForClasse(selectedClasse.NomSalle);
-            }
-            else
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    InfoClasseTextBlock.Text = "";
-                    ImagesControl.ItemsSource = null;
-                });
             }
         }
 
-        // Méthode pour charger les images d'une salle spécifique
+        // Load images for a specific room
         private async Task LoadImagesForClasse(string nomSalle)
         {
-            string baseImageUrl = "http://quentinvrns.fr/Document/"; // Utiliser HTTP si possible
+            string baseImageUrl = "http://quentinvrns.fr/Document/";
             string salleUrl = $"{baseImageUrl}{nomSalle}/";
-            string listUrl = $"{salleUrl}image.json"; // Chemin HTTP du fichier JSON pour obtenir la liste des images
+            string listUrl = $"{salleUrl}image.json";
 
             List<string> availableImages = new List<string>();
 
             try
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    var response = await client.GetStringAsync(listUrl).ConfigureAwait(false);
-                    availableImages = JsonConvert.DeserializeObject<List<string>>(response);
-                }
+                var response = await _httpClient.GetStringAsync(listUrl).ConfigureAwait(false);
+                availableImages = JsonConvert.DeserializeObject<List<string>>(response);
 
                 if (availableImages == null || availableImages.Count == 0)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show("Aucune image disponible pour la salle sélectionnée.");
-                        ImagesControl.ItemsSource = null;
-                    });
+                    MessageBox.Show("Aucune image disponible pour la salle sélectionnée.");
+                    ImagesControl.ItemsSource = null;
                     return;
                 }
 
-                // Filtrer les entrées invalides
                 availableImages = availableImages
                     .Where(imageName => !string.IsNullOrWhiteSpace(imageName) && imageName != "." && imageName != "..")
                     .ToList();
 
-                if (availableImages.Count == 0)
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
+                List<ImageItem> imageItems = availableImages
+                    .Where(imageName => new[] { ".png", ".jpg", ".jpeg", ".bmp", ".gif" }
+                    .Contains(Path.GetExtension(imageName).ToLower()))
+                    .Select(imageName =>
                     {
-                        MessageBox.Show("Aucune image valide disponible pour la salle sélectionnée.");
-                        ImagesControl.ItemsSource = null;
-                    });
-                    return;
-                }
-
-                // Créer une liste d'ImageItem
-                List<ImageItem> imageItems = new List<ImageItem>();
-                foreach (var imageName in availableImages)
-                {
-                    // Vérifier que le fichier est une image valide (par extension)
-                    string[] validExtensions = { ".png", ".jpg", ".jpeg", ".bmp", ".gif" };
-                    string extension = Path.GetExtension(imageName).ToLower();
-                    if (!validExtensions.Contains(extension))
-                    {
-                        // Ignorer les fichiers qui ne sont pas des images
-                        continue;
-                    }
-
-                    string imageUrl = $"{salleUrl}{imageName}";
-                    imageItems.Add(new ImageItem(imageUrl));
-                }
+                        string imageUrl = $"{salleUrl}{imageName}";
+                        return new ImageItem(imageUrl);
+                    })
+                    .ToList();
 
                 if (imageItems.Count == 0)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show("Aucune image valide disponible pour la salle sélectionnée.");
-                        ImagesControl.ItemsSource = null;
-                    });
+                    MessageBox.Show("Aucune image valide disponible.");
+                    ImagesControl.ItemsSource = null;
                     return;
                 }
 
-                // Mettre à jour le ItemsControl avec les objets ImageItem
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     ImagesControl.ItemsSource = imageItems;
@@ -214,117 +159,60 @@ namespace ProjetAdminSmartDisplay
             }
             catch (Exception ex)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show($"Erreur lors du chargement des images : {ex.Message}");
-                });
+                MessageBox.Show($"Erreur lors du chargement des images : {ex.Message}");
             }
         }
 
-        // Gestionnaire d'événement pour le clic sur le bouton émoji pour revenir à la MainWindow
-        private void RetourAccueil_Click(object sender, RoutedEventArgs e)
+        // Load FTP credentials
+        private void LoadFtpConfig()
         {
-            // Supposons que le UserControl soit chargé dans un ContentControl
-            if (this.Parent is ContentControl contentControl)
+            string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
+            if (!File.Exists(configFilePath))
             {
-                contentControl.Content = null; // Vous pouvez revenir à une vue par défaut ou à la page d'accueil
+                MessageBox.Show("Le fichier de configuration appsettings.json est introuvable.");
+                return;
             }
+
+            string configJson = File.ReadAllText(configFilePath);
+            _ftpConfig = JsonConvert.DeserializeObject<FtpConfig>(configJson);
         }
 
-        // Gestionnaire d'événement pour ouvrir le ComboBox lors du clic n'importe où
-        private void ComboBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // Trouver le ComboBox parent
-            ComboBox comboBox = FindParent<ComboBox>((DependencyObject)e.OriginalSource);
-            if (comboBox != null)
-            {
-                comboBox.IsDropDownOpen = true;
-            }
-        }
-
-        // Méthode utilitaire pour trouver le parent d'un type spécifique
-        private T FindParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            if (child == null) return null;
-
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
-            if (parentObject == null) return null;
-
-            if (parentObject is T parent)
-            {
-                return parent;
-            }
-            else
-            {
-                return FindParent<T>(parentObject);
-            }
-        }
-
-        // Gestionnaire d'événement pour le clic sur le bouton de suppression
+        // Event handler for image deletion (deletes from image.json and the folder)
         private async void DeleteImage_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.DataContext is ImageItem imageItem && imageItem.ImageUrl != null)
             {
                 string imageName = Path.GetFileName(imageItem.ImageUrl);
+                string salleName = ""; // You need to get the selected room/salle here
 
-                // Obtenir le nom de la salle depuis la classe sélectionnée
-                if (ClasseComboBox.SelectedItem is Classe selectedClasse)
+                var result = MessageBox.Show($"Voulez-vous vraiment supprimer l'image '{imageName}' ?", "Confirmer la suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
                 {
-                    string salleName = selectedClasse.NomSalle;
-
-                    // Charger les informations d'identification depuis appsettings.json
-                    string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
-                    if (!File.Exists(configFilePath))
-                    {
-                        MessageBox.Show("Le fichier de configuration appsettings.json est introuvable.");
-                        return;
-                    }
-                    var configJson = File.ReadAllText(configFilePath);
-                    var config = JsonConvert.DeserializeObject<FtpConfig>(configJson);
-
-                    string ftpUsername = config.FtpCredentials.Username;
-                    string ftpPassword = config.FtpCredentials.Password;
-
-                    // Confirmer la suppression
-                    var result = MessageBox.Show($"Voulez-vous vraiment supprimer l'image '{imageName}' ?", "Confirmer la suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result != MessageBoxResult.Yes)
-                        return;
-
-                    // Supprimer le fichier sur le serveur FTP
-                    bool deleteSuccess = await DeleteFileFromFtpAsync(salleName, imageName, ftpUsername, ftpPassword);
+                    bool deleteSuccess = await DeleteImageFromFtpAsync(salleName, imageName);
 
                     if (deleteSuccess)
                     {
-                        // Mettre à jour image.json en récupérant la nouvelle liste de fichiers
-                        List<string> updatedFiles = await Task.Run(() => ListFilesInFtpDirectory(salleName, ftpUsername, ftpPassword));
-
-                        // Mettre à jour image.json sur le serveur FTP
-                        bool updateSuccess = await Task.Run(() => UpdateImageJsonOnFtp(salleName, updatedFiles, ftpUsername, ftpPassword));
-
-                        if (updateSuccess)
-                        {
-                            // Rafraîchir l'affichage des images
-                            await LoadImagesForClasse(salleName);
-                        }
+                        MessageBox.Show($"L'image '{imageName}' a été supprimée avec succès.");
+                        await RemoveImageFromJsonAsync(salleName, imageName); // Remove from JSON
+                        await LoadImagesForClasse(salleName); // Refresh the images list
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Aucune salle sélectionnée.");
                 }
             }
         }
 
-        // Méthode pour supprimer un fichier du serveur FTP de manière asynchrone
-        private async Task<bool> DeleteFileFromFtpAsync(string salleName, string fileName, string ftpUsername, string ftpPassword)
+        // Delete an image from the FTP server
+        private async Task<bool> DeleteImageFromFtpAsync(string salleName, string fileName)
         {
             try
             {
+                // Build the FTP URL
                 string ftpUrl = $"ftp://quentinvrns.fr/Document/{salleName}/{fileName}";
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpUrl);
                 request.Method = WebRequestMethods.Ftp.DeleteFile;
-                request.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                request.UsePassive = true;
+
+                // Set the credentials
+                request.Credentials = new NetworkCredential(_ftpConfig.FtpCredentials.Username, _ftpConfig.FtpCredentials.Password);
+                request.UsePassive = true; // Ensure passive mode is enabled
                 request.KeepAlive = false;
 
                 using (FtpWebResponse response = (FtpWebResponse)await request.GetResponseAsync())
@@ -334,95 +222,61 @@ namespace ProjetAdminSmartDisplay
 
                 return true;
             }
+            catch (WebException ex)
+            {
+                if (ex.Response is FtpWebResponse response)
+                {
+                    MessageBox.Show($"Erreur lors de la suppression de l'image du serveur FTP : {response.StatusDescription}");
+                }
+                else
+                {
+                    MessageBox.Show($"Erreur FTP inattendue : {ex.Message}");
+                }
+                return false;
+            }
             catch (Exception ex)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show($"Erreur lors de la suppression de l'image {fileName} : {ex.Message}");
-                });
+                MessageBox.Show($"Erreur lors de la suppression de l'image du serveur FTP : {ex.Message}");
                 return false;
             }
         }
 
-        // Méthode pour lister les fichiers dans le répertoire FTP d'une salle
-        private List<string> ListFilesInFtpDirectory(string salleName, string ftpUsername, string ftpPassword)
+        // Remove image from image.json
+        private async Task RemoveImageFromJsonAsync(string salleName, string imageName)
         {
-            List<string> files = new List<string>();
+            string jsonUrl = $"http://quentinvrns.fr/Document/{salleName}/image.json";
+
             try
             {
-                string ftpDirectoryUrl = $"ftp://quentinvrns.fr/Document/{salleName}/";
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpDirectoryUrl);
-                request.Method = WebRequestMethods.Ftp.ListDirectory;
-                request.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                request.UsePassive = true;
-                request.KeepAlive = false;
+                var response = await _httpClient.GetStringAsync(jsonUrl).ConfigureAwait(false);
+                var images = JsonConvert.DeserializeObject<List<string>>(response);
 
-                using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string line = reader.ReadLine();
-                    while (line != null)
-                    {
-                        // Exclure '.', '..' et 'image.json' de la liste
-                        if (line != "." && line != ".." && line != "image.json")
-                        {
-                            files.Add(line);
-                        }
-                        line = reader.ReadLine();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show($"Erreur lors de la liste des fichiers pour {salleName} : {ex.Message}");
-                });
-            }
-            return files;
-        }
+                images.Remove(imageName);
 
-        // Méthode pour mettre à jour le fichier image.json sur le serveur FTP
-        private bool UpdateImageJsonOnFtp(string salleName, List<string> fileList, string ftpUsername, string ftpPassword)
-        {
-            try
-            {
-                string ftpUrl = $"ftp://quentinvrns.fr/Document/{salleName}/image.json";
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                string updatedJson = JsonConvert.SerializeObject(images, Formatting.Indented);
+                byte[] fileContents = Encoding.UTF8.GetBytes(updatedJson);
+
+                // Upload the updated image.json file back to the FTP server
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create($"ftp://quentinvrns.fr/Document/{salleName}/image.json");
                 request.Method = WebRequestMethods.Ftp.UploadFile;
-                request.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                request.Credentials = new NetworkCredential(_ftpConfig.FtpCredentials.Username, _ftpConfig.FtpCredentials.Password);
                 request.UsePassive = true;
                 request.KeepAlive = false;
-
-                // Générer le contenu JSON
-                string jsonContent = JsonConvert.SerializeObject(fileList, Formatting.Indented);
-                byte[] fileContents = Encoding.UTF8.GetBytes(jsonContent);
                 request.ContentLength = fileContents.Length;
 
                 using (Stream requestStream = request.GetRequestStream())
                 {
-                    requestStream.Write(fileContents, 0, fileContents.Length);
+                    await requestStream.WriteAsync(fileContents, 0, fileContents.Length);
                 }
-
-                using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
-                {
-                    Console.WriteLine($"Upload image.json status: {response.StatusDescription}");
-                }
-
-                return true;
             }
             catch (Exception ex)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show($"Erreur lors de la mise à jour de image.json pour {salleName} : {ex.Message}");
-                });
-                return false;
+                MessageBox.Show($"Erreur lors de la mise à jour du fichier image.json : {ex.Message}");
             }
         }
     }
 
-    // Classe pour représenter un élément d'image avec chargement asynchrone
+    // Class to represent an image item with asynchronous loading
     public class ImageItem : INotifyPropertyChanged
     {
         private BitmapImage _imageSource;
@@ -450,31 +304,30 @@ namespace ProjetAdminSmartDisplay
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    // Télécharger l'image en tant que flux
                     var response = await client.GetAsync(ImageUrl).ConfigureAwait(false);
                     response.EnsureSuccessStatusCode();
+
                     using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                     {
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.StreamSource = stream;
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.EndInit();
-                        bitmap.Freeze(); // Pour améliorer les performances
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            ImageSource = bitmap;
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.StreamSource = stream;
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.EndInit();
+                            bitmap.Freeze(); // Freeze the bitmap to make it cross-thread accessible
+
+                            ImageSource = bitmap; // Set the image source on the UI thread
                         });
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Gestion des erreurs de chargement
-                // Définir une image par défaut ou laisser null
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    ImageSource = null;
+                    MessageBox.Show($"Erreur lors du chargement des images : {ex.Message}");
                 });
             }
         }
