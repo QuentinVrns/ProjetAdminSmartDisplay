@@ -165,14 +165,17 @@ namespace ProjetAdminSmartDisplay
                     string line = reader.ReadLine();
                     while (!string.IsNullOrEmpty(line))
                     {
-                        // Exclure le fichier image.json de la liste
-                        if (line != "image.json")
+                        // Exclure le fichier image.json de la liste et vérifier que ce n'est pas un dossier
+                        if (line != "image.json" && !line.EndsWith("/"))
                         {
                             files.Add(line);
                         }
                         line = reader.ReadLine();
                     }
                 }
+
+                // Journalisation des fichiers récupérés pour vérification
+                Console.WriteLine($"Fichiers récupérés pour {salleName}: {string.Join(", ", files)}");
             }
             catch (Exception ex)
             {
@@ -195,6 +198,9 @@ namespace ProjetAdminSmartDisplay
                 // Générer le contenu JSON
                 string jsonContent = JsonConvert.SerializeObject(fileList, Formatting.Indented);
 
+                // Journaliser le contenu du JSON pour s'assurer qu'il est correct
+                Console.WriteLine($"Mise à jour du fichier image.json pour {salleName} avec le contenu : {jsonContent}");
+
                 byte[] fileContents = Encoding.UTF8.GetBytes(jsonContent);
                 request.ContentLength = fileContents.Length;
 
@@ -214,13 +220,6 @@ namespace ProjetAdminSmartDisplay
             }
         }
 
-        private void RetourAccueil_Click(object sender, RoutedEventArgs e)
-        {
-            // Supposons que le UserControl soit chargé dans un ContentControl
-            if (this.Parent is ContentControl contentControl)
-            {
-                contentControl.Content = null; // Vous pouvez revenir à une vue par défaut ou à la page d'accueil
-            }
-        }
+        
     }
 }

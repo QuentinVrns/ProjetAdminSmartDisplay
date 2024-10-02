@@ -3,10 +3,114 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjetAdminSmartDisplay.View"
         mc:Ignorable="d"
-        Height="450" Width="800" Background="White">
-    <Grid>
+        Height="650" Width="870" Background="#1E1E1E">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Section Ajouter un Bâtiment -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="Ajouter un Bâtiment" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
+
+            <!-- TextBox avec Placeholder -->
+            <Grid>
+                <TextBox x:Name="BatimentNameTextBox" Width="300" Height="30" Margin="0,0,0,10"/>
+                <TextBlock Text="Nom du Bâtiment" Foreground="Gray" Margin="5,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=BatimentNameTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=BatimentNameTextBox}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=BatimentNameTextBox}" Value="NonNullValue">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <Button Content="Ajouter Bâtiment" Width="150" Click="OnAddBatiment_Click"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" BorderBrush="White" BorderThickness="0,0,0,4" Margin="0,10,0,10"/>
+
+        <!-- Section Ajouter un Étage -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,20">
+            <TextBlock Text="Ajouter un Étage" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
+
+            <!-- TextBox avec Placeholder -->
+            <Grid>
+                <TextBox x:Name="EtageNameTextBox" Width="300" Height="30" Margin="0,0,0,10"/>
+                <TextBlock Text="Nom de l'Étage" Foreground="Gray" Margin="5,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=EtageNameTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=EtageNameTextBox}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=EtageNameTextBox}" Value="NonNullValue">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <ComboBox x:Name="BatimentComboBox" Width="300" Height="30" DisplayMemberPath="NomBatiment" SelectedValuePath="Id" Margin="0,0,0,10"/>
+            <Button Content="Ajouter Étage" Width="150" Click="OnAddEtage_Click"/>
+
+            <Border Grid.Row="3" BorderBrush="White" BorderThickness="0,0,0,4" Margin="0,10,0,10"/>
+        </StackPanel>
+
         
+
+        <!-- Section Ajouter une Salle -->
+        
+        <StackPanel Grid.Row="4" Margin="0,0,0,20">
+            <TextBlock Text="Ajouter une Salle" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
+
+            <!-- TextBox avec Placeholder -->
+            <Grid>
+                <TextBox x:Name="SalleNameTextBox" Width="300" Height="30" Margin="0,0,0,10"/>
+                <TextBlock Text="Nom de la Salle" Foreground="Gray" Margin="5,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=SalleNameTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=SalleNameTextBox}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=SalleNameTextBox}" Value="NonNullValue">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <ComboBox x:Name="EtageComboBox" Width="300" Height="30" DisplayMemberPath="NomEtage" SelectedValuePath="Id" Margin="0,0,0,10"/>
+            <Button Content="Ajouter Salle" Width="150" Click="OnAddSalle_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>

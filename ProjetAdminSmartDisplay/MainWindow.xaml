@@ -34,8 +34,8 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="BorderBrush" Value="Orange"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Effect">
                 <Setter.Value>
@@ -114,10 +114,11 @@
                 <Button Content="AjouterUneClasse" 
                         Style="{StaticResource CustomButtonStyle}"
                         Click="AddClasse_Click"/>
-                <Button Content="🏠" Style="{StaticResource EmojiButtonStyle}"  Click="HomeButton_Click" Margin="100" HorizontalAlignment="Left"/>
+                <Button Content="🏠" Style="{StaticResource EmojiButtonStyle}"  Click="HomeButton_Click" Margin="0,300,0,0" HorizontalAlignment="Left"/>
 
 
             </StackPanel>
+            
 
             
 

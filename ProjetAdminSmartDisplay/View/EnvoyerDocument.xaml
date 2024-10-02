@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="ProjetAdminSmartDisplay.EnvoyerDocumentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="450" Width="800">
+        Height="650" Width="870">
     <UserControl.Resources>
         <!-- Styles et ressources importés depuis EcranView -->
 
@@ -46,7 +46,7 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="BorderBrush" Value="Orange"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Effect">
@@ -123,15 +123,7 @@
                     
                 </Grid.RowDefinitions>
 
-                <!-- Bouton avec émoji pour revenir à la MainWindow -->
-                <Button Grid.Row="1" Content="🏠"
-                        Width="50"
-                        Height="50"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Margin="10"
-                        Click="RetourAccueil_Click"
-                        Style="{StaticResource EmojiButtonStyle}"/>
+                
 
                 <!-- Sélection des salles -->
                 <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20">
@@ -182,7 +174,7 @@
                 <TextBlock Text="Déposez vos fichiers ici :" Style="{StaticResource LabelTextStyle}"/>
 
                 <!-- Zone de drag-and-drop -->
-                <Border BorderBrush="Orange" BorderThickness="2" Background="#FF2A2A2A" Height="200" Width="410" AllowDrop="True"
+                <Border BorderBrush="White" BorderThickness="2" Background="#FF2A2A2A" Height="200" Width="410" AllowDrop="True"
                         Drop="OnFileDrop" DragOver="OnFileDragOver">
                     <Border.Effect>
                         <!-- Ombre portée pour le relief -->
