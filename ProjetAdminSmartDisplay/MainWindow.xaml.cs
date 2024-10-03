@@ -32,7 +32,14 @@ namespace ProjetAdminSmartDisplay
             LogoStackPanel.Visibility = Visibility.Collapsed;
         }
 
-        
+        private void SupprimerLesSalles_Click(object sender, RoutedEventArgs e)
+        {
+            // Charger une autre vue et masquer le logo et le titre
+            MainContentControl.Content = new SupprimerLesSalles();
+            LogoStackPanel.Visibility = Visibility.Collapsed;
+        }
+
+
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {

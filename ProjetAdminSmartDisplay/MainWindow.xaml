@@ -111,9 +111,12 @@
                 <Button Content="Envoyer un Document"
                         Style="{StaticResource CustomButtonStyle}"
                         Click="EnvoyerDocumentButton_Click"/>
-                <Button Content="AjouterUneClasse" 
+                <Button Content="Ajouter Des Classes" 
                         Style="{StaticResource CustomButtonStyle}"
                         Click="AddClasse_Click"/>
+                <Button Content="Supprimer Les Salles" 
+                        Style="{StaticResource CustomButtonStyle}"
+                        Click="SupprimerLesSalles_Click"/>
                 <Button Content="🏠" Style="{StaticResource EmojiButtonStyle}"  Click="HomeButton_Click" Margin="0,300,0,0" HorizontalAlignment="Left"/>
 
 

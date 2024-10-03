@@ -71,6 +71,9 @@
     <Compile Include="View\EnvoyerDocument.xaml.cs">
       <DependentUpon>EnvoyerDocument.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SupprimerLesSalles.xaml.cs">
+      <DependentUpon>SupprimerLesSalles.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -92,6 +95,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EnvoyerDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SupprimerLesSalles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
