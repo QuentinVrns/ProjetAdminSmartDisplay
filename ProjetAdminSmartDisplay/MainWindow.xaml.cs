@@ -9,6 +9,8 @@ namespace ProjetAdminSmartDisplay
         public MainWindow()
         {
             InitializeComponent();
+            //ouvrir en plein ecran
+            WindowState = WindowState.Maximized;
         }
 
         private void EcranButton_Click(object sender, RoutedEventArgs e)

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ProjetAdminSmartDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ProjetAdminSmartDisplay" Height="700" Width="1200">
+        Title="ProjetAdminSmartDisplay" Height="1000" Width="1920">
     <Window.Resources>
         <!-- Styles et ressources importés depuis EcranView -->
 
@@ -117,7 +117,7 @@
                 <Button Content="Supprimer Les Salles" 
                         Style="{StaticResource CustomButtonStyle}"
                         Click="SupprimerLesSalles_Click"/>
-                <Button Content="🏠" Style="{StaticResource EmojiButtonStyle}"  Click="HomeButton_Click" Margin="0,300,0,0" HorizontalAlignment="Left"/>
+                <Button Content="🏠" Style="{StaticResource EmojiButtonStyle}"  Click="HomeButton_Click" Margin="0,600,0,0" HorizontalAlignment="Left"/>
 
 
             </StackPanel>
@@ -161,7 +161,7 @@
 
                 <!-- Logo et titre (par défaut quand aucun contenu n'est chargé) -->
                 <StackPanel x:Name="LogoStackPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-                    <Image Source="Ressource/LogoAppli.jpg" Width="450" Height="250" Stretch="Uniform"/>
+                    <Image Source="Ressource/LogoAppli.jpg" Width="650" Height="450" Stretch="Uniform"/>
                     <TextBlock Text="ProjetSmartDisplay" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"
                            TextAlignment="Center" Style="{StaticResource LabelTextStyle}"/>
                 </StackPanel>
