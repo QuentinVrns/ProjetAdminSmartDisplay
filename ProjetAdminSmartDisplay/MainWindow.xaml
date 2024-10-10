@@ -1,7 +1,8 @@
 ﻿<Window x:Class="ProjetAdminSmartDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ProjetAdminSmartDisplay" Height="1000" Width="1920">
+        Title="ProjetAdminSmartDisplay" Height="1000" Width="1920"
+        Background="#1E1E1E">
     <Window.Resources>
         <!-- Styles et ressources importés depuis EcranView -->
 
@@ -97,7 +98,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Côté gauche avec arrière-plan et effet -->
-        <Border Grid.Column="0" Background="{StaticResource SideBackground}">
+        <Border Grid.Column="0" >
             <Border.Effect>
                 <!-- Lueur externe pour ajouter du relief -->
                 <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.8" BlurRadius="10"/>
@@ -153,7 +154,7 @@
         </Grid>
 
         <!-- Zone principale avec le logo et le titre centrés à droite -->
-        <Border Grid.Column="1" Background="{StaticResource SideBackground}">
+        <Border Grid.Column="1" >
 
             <Grid Grid.Column="1">
                 <!-- ContentControl pour afficher dynamiquement le contenu -->
@@ -161,8 +162,8 @@
 
                 <!-- Logo et titre (par défaut quand aucun contenu n'est chargé) -->
                 <StackPanel x:Name="LogoStackPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-                    <Image Source="Ressource/LogoAppli.jpg" Width="650" Height="450" Stretch="Uniform"/>
-                    <TextBlock Text="ProjetSmartDisplay" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"
+                    <Image Source="Ressource/VraiLogo.png" Width="950" Height="650" Stretch="Uniform"/>
+                    <TextBlock Text="ProjetSmartDisplay" Foreground="White" FontSize="52" FontWeight="Bold" Margin="0,10,0,0"
                            TextAlignment="Center" Style="{StaticResource LabelTextStyle}"/>
                 </StackPanel>
             </Grid>

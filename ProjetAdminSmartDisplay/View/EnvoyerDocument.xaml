@@ -109,7 +109,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Côté gauche avec arrière-plan et effet -->
-        <Border Grid.Column="0" Background="{StaticResource SideBackground}">
+        <Border Grid.Column="0" >
             <Border.Effect>
                 <!-- Lueur externe pour ajouter du relief -->
                 <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.8" BlurRadius="10"/>
@@ -164,7 +164,7 @@
         </Grid>
 
         <!-- Zone principale -->
-        <Border Grid.Column="1" Background="{StaticResource SideBackground}">
+        <Border Grid.Column="1" >
             <Border.Effect>
                 <!-- Lueur externe pour ajouter du relief -->
                 <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.8" BlurRadius="10"/>
