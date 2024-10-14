@@ -1,9 +1,13 @@
 ﻿<Window x:Class="ProjetAdminSmartDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ProjetAdminSmartDisplay" Height="1000" Width="1920"
+        xmlns:local="clr-namespace:ProjetAdminSmartDisplay" 
+        
+    Title="ProjetAdminSmartDisplay" Height="1000" Width="1920"
         Background="#E5E7EB">
+
     <Window.Resources>
+        
         <!-- Style pour les TextBlocks -->
         <Style x:Key="LabelTextStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24"/>
@@ -60,93 +64,113 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        
     </Window.Resources>
 
     <Grid>
-        <!-- Définition des colonnes -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
-            <!-- Colonne gauche pour le menu -->
-            <ColumnDefinition Width="*"/>
-            <!-- Zone principale -->
-        </Grid.ColumnDefinitions>
+        <!-- Nouvelle Grid pour le message de bienvenue et la barre de recherche -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Côté gauche avec le menu -->
-        <Border Grid.Column="0" Background="#374151" CornerRadius="15" Margin="20">
-            <Grid>
-                <TextBlock Text="AdminPannel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30"/>
-                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,80,0,0">
-                    <Button Content="Ecran" Style="{StaticResource CustomButtonStyle}" Click="EcranButton_Click"/>
-                    <Button Content="Envoyer un Document" Style="{StaticResource CustomButtonStyle}" Click="EnvoyerDocumentButton_Click"/>
-                    <Button Content="Ajouter Des Classes" Style="{StaticResource CustomButtonStyle}" Click="AddClasse_Click"/>
-                    <Button Content="Supprimer Les Salles" Style="{StaticResource CustomButtonStyle}" Click="SupprimerLesSalles_Click"/>
-                </StackPanel>
-                <Button Content="🏠" Style="{StaticResource CustomButtonStyle}" Click="HomeButton_Click" VerticalAlignment="Bottom" Margin="0,20"/>
-            </Grid>
-        </Border>
+        <!-- Barre de bienvenue -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Margin="400,20,0,0">
+            <TextBlock x:Name="WelcomeTextBlock" FontSize="28" FontWeight="Bold" Foreground="Black" VerticalAlignment="Center"/>
+            <TextBlock Text="👋" FontSize="28" VerticalAlignment="Center" Margin="10,0,20,0"/>
 
-        <!-- Zone principale avec le logo en grand à droite -->
-        <Border Grid.Column="1" Background="#F3F4F6" CornerRadius="15" Margin="20">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Name="MainContentControl">
-                <Grid Name="AllContent">
-                    <StackPanel VerticalAlignment="Top" Margin="20">
-                        <!-- Encadrer la première section -->
-                        <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
-                            <StackPanel>
-                                <TextBlock Text="ProjetSmartDisplay" FontSize="32" FontWeight="Bold" Foreground="Black" Margin="0,10,0,20" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Qu'est-ce que le ProjetSmartDisplay?" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,20,0,10" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Le ProjetSmartDisplay est un dispositif intelligent conçu pour afficher des informations personnalisées en temps réel sur un écran. Idéal pour la maison ou les entreprises, il permet de centraliser et d'automatiser l'affichage de données utiles comme la météo, l'agenda ou les notifications importantes." FontSize="20" Foreground="#374151" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,10,0,20"/>
-                            </StackPanel>
-                        </Border>
+            
 
-                        <!-- Encadrer la section Fonctionnalités -->
-                        <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
-                            <StackPanel>
-                                <TextBlock Text="Fonctionnalités" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
-                                    <StackPanel Margin="20" Width="300">
-                                        <TextBlock Text="Affichage en temps réel" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="Des données comme la météo, les nouvelles ou des notifications." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    <StackPanel Margin="20" Width="300">
-                                        <TextBlock Text="Personnalisation" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="L'utilisateur peut ajuster les informations qu'il veut voir." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    <StackPanel Margin="20" Width="300">
-                                        <TextBlock Text="Accessibilité" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="Peut-être multi-plateforme, accessible sur web et mobile." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+            <!-- Avatar utilisateur -->
 
-                        <!-- Encadrer la section Menus de l'application -->
-                        <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
-                            <StackPanel>
-                                <TextBlock Text="Menus de l'application" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
-                                <StackPanel Orientation="Vertical" Margin="0,10,0,10">
-                                    <StackPanel Margin="20" Width="600">
-                                        <TextBlock Text="Ecrans" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="Sert à voir les différents écrans disponibles et à supprimer les images ou vidéos." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    <StackPanel Margin="20" Width="600">
-                                        <TextBlock Text="Envoyer un Document" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="Sert à envoyer les photos et les vidéos pour que les écrans aient accès à cela." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    <StackPanel Margin="20" Width="600">
-                                        <TextBlock Text="Ajouter Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="Permet de créer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    <StackPanel Margin="20" Width="600">
-                                        <TextBlock Text="Supprimer Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="Permet de supprimer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+        </StackPanel>
+
+        <!-- Contenu principal dans la deuxième ligne -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="143*"/>
+                <ColumnDefinition Width="642*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Côté gauche avec le menu -->
+            <Border Grid.Column="0" Background="#374151" CornerRadius="15" Margin="20,20,20,20">
+                <Grid>
+                    <TextBlock Text="AdminPannel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30"/>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,80,0,0">
+                        <Button Content="Ecran" Style="{StaticResource CustomButtonStyle}" Click="EcranButton_Click"/>
+                        <Button Content="Envoyer un Document" Style="{StaticResource CustomButtonStyle}" Click="EnvoyerDocumentButton_Click"/>
+                        <Button Content="Ajouter Des Classes" Style="{StaticResource CustomButtonStyle}" Click="AddClasse_Click"/>
+                        <Button Content="Supprimer Les Salles" Style="{StaticResource CustomButtonStyle}" Click="SupprimerLesSalles_Click"/>
                     </StackPanel>
+                    <Button Content="🏠" Style="{StaticResource CustomButtonStyle}" Click="HomeButton_Click" VerticalAlignment="Bottom" Margin="0,20"/>
                 </Grid>
-            </ScrollViewer>
-        </Border>
+            </Border>
+
+            <!-- Zone principale avec le logo en grand à droite -->
+            <Border Grid.Column="1" Background="#F3F4F6" CornerRadius="15" Margin="20,20,20,20" Grid.ColumnSpan="2">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Name="MainContentControl">
+                    <Grid Name="AllContent">
+                        <StackPanel VerticalAlignment="Top" Margin="20">
+                            <!-- Encadrer la première section -->
+                            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <TextBlock Text="ProjetSmartDisplay" FontSize="32" FontWeight="Bold" Foreground="Black" Margin="0,10,0,20" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Qu'est-ce que le ProjetSmartDisplay?" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Le ProjetSmartDisplay est un dispositif intelligent conçu pour afficher des informations personnalisées en temps réel sur un écran. Idéal pour la maison ou les entreprises, il permet de centraliser et d'automatiser l'affichage de données utiles comme la météo, l'agenda ou les notifications importantes." FontSize="20" Foreground="#374151" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,10,0,20"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Encadrer la section Fonctionnalités -->
+                            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <TextBlock Text="Fonctionnalités" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
+                                        <StackPanel Margin="20" Width="300">
+                                            <TextBlock Text="Affichage en temps réel" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="Des données comme la météo, les nouvelles ou des notifications." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="20" Width="300">
+                                            <TextBlock Text="Personnalisation" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="L'utilisateur peut ajuster les informations qu'il veut voir." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="20" Width="300">
+                                            <TextBlock Text="Accessibilité" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="Peut-être multi-plateforme, accessible sur web et mobile." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Encadrer la section Menus de l'application -->
+                            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <TextBlock Text="Menus de l'application" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
+                                    <StackPanel Orientation="Vertical" Margin="0,10,0,10">
+                                        <StackPanel Margin="20" Width="600">
+                                            <TextBlock Text="Ecrans" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="Sert à voir les différents écrans disponibles et à supprimer les images ou vidéos." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="20" Width="600">
+                                            <TextBlock Text="Envoyer un Document" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="Sert à envoyer les photos et les vidéos pour que les écrans aient accès à cela." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="20" Width="600">
+                                            <TextBlock Text="Ajouter Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="Permet de créer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="20" Width="600">
+                                            <TextBlock Text="Supprimer Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock HorizontalAlignment="Center" Text="Permet de supprimer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

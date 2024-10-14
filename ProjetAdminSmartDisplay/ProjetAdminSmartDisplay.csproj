@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Model\Batiment.cs" />
     <Compile Include="Model\Classe.cs" />
     <Compile Include="Model\Etage.cs" />
@@ -74,6 +75,9 @@
     </Compile>
     <Compile Include="View\EnvoyerDocument.xaml.cs">
       <DependentUpon>EnvoyerDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SupprimerLesSalles.xaml.cs">
       <DependentUpon>SupprimerLesSalles.xaml</DependentUpon>
@@ -99,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EnvoyerDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

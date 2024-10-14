@@ -261,5 +261,7 @@ namespace ProjetAdminSmartDisplay.View
                 MessageBox.Show($"Erreur lors de la création du dossier ou du fichier image.json pour {salleName} : {ex.Message}");
             }
         }
+
+        
     }
 }

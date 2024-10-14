@@ -1,52 +1,118 @@
 ﻿<UserControl x:Class="ProjetAdminSmartDisplay.View.SupprimerLesSalles"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="1100" Width="1700" Background="#1E1E1E">
+             Height="1100" Width="1700" Background="#E5E7EB">
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <!-- Bordure globale -->
+    <Border Background="#F3F4F6" CornerRadius="15" Margin="10">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!-- Section Supprimer un Bâtiment -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Supprimer un Bâtiment" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
-            <ComboBox x:Name="BatimentComboBox" Width="300" Height="30" DisplayMemberPath="NomBatiment" SelectedValuePath="Id" Margin="0,0,0,10"/>
-            <Button Content="Supprimer Bâtiment" Width="150" Click="OnDeleteBatiment_Click"/>
-        </StackPanel>
+            <!-- Titre principal -->
+            <TextBlock Grid.Row="0" Text="Supprimer des Éléments" 
+                       FontSize="32" 
+                       FontWeight="Bold" 
+                       Foreground="#1F2937" 
+                       HorizontalAlignment="Center" 
+                       Margin="0,10,0,20"/>
 
-        <Border Grid.Row="1" BorderBrush="White" BorderThickness="0,0,0,4" Margin="0,10,0,10"/>
+            <!-- Section Supprimer un Bâtiment -->
+            <Border Grid.Row="1" BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Supprimer un Bâtiment" Foreground="#1F2937" FontSize="18" Margin="0,0,0,10"/>
+                    <ComboBox x:Name="BatimentComboBox" Width="300" Height="35" DisplayMemberPath="NomBatiment" SelectedValuePath="Id" Background="White" BorderBrush="#D1D5DB" Margin="0,0,0,10"/>
+                    <Button Content="Supprimer Bâtiment" Width="200" Height="40" FontSize="16" FontWeight="Bold" Margin="10,20,0,0" Click="OnDeleteBatiment_Click">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF6666" Offset="0.0"/>
+                                <GradientStop Color="#FF4444" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.Effect>
+                            <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3"/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
+            </Border>
 
-        <!-- Section Supprimer un Étage -->
-        <StackPanel Grid.Row="2" Margin="0,0,0,20">
-            <TextBlock Text="Supprimer un Étage" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
-            <ComboBox x:Name="EtageComboBox" Width="300" Height="30" DisplayMemberPath="NomEtage" SelectedValuePath="Id" Margin="0,0,0,10"/>
-            <Button Content="Supprimer Étage" Width="150" Click="OnDeleteEtage_Click"/>
-        </StackPanel>
+            <!-- Section Supprimer un Étage -->
+            <Border Grid.Row="2" BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Supprimer un Étage" Foreground="#1F2937" FontSize="18" Margin="0,0,0,10"/>
+                    <ComboBox x:Name="EtageComboBox" Width="300" Height="35" DisplayMemberPath="NomEtage" SelectedValuePath="Id" Background="White" BorderBrush="#D1D5DB" Margin="0,0,0,10"/>
+                    <Button Content="Supprimer Étage" Width="200" Height="40" FontSize="16" FontWeight="Bold" Margin="10,20,0,0" Click="OnDeleteEtage_Click">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF6666" Offset="0.0"/>
+                                <GradientStop Color="#FF4444" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.Effect>
+                            <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3"/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
+            </Border>
 
-        <Border Grid.Row="3" BorderBrush="White" BorderThickness="0,0,0,4" Margin="0,10,0,10"/>
+            <!-- Section Supprimer une Classe -->
+            <Border Grid.Row="3" BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Supprimer une Classe" Foreground="#1F2937" FontSize="18" Margin="0,0,0,10"/>
+                    <ComboBox x:Name="ClasseComboBox" Width="300" Height="35" DisplayMemberPath="NomSalle" SelectedValuePath="Id" Background="White" BorderBrush="#D1D5DB" Margin="0,0,0,10"/>
+                    <Button Content="Supprimer Classe" Width="200" Height="40" FontSize="16" FontWeight="Bold" Margin="10,20,0,0" Click="OnDeleteClasse_Click">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF6666" Offset="0.0"/>
+                                <GradientStop Color="#FF4444" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.Effect>
+                            <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3"/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
+            </Border>
 
-        <!-- Section Supprimer une Classe -->
-        <StackPanel Grid.Row="4" Margin="0,0,0,20">
-            <TextBlock Text="Supprimer une Classe" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
-            <ComboBox x:Name="ClasseComboBox" Width="300" Height="30" DisplayMemberPath="NomSalle" SelectedValuePath="Id" Margin="0,0,0,10"/>
-            <Button Content="Supprimer Classe" Width="150" Click="OnDeleteClasse_Click"/>
-        </StackPanel>
+            <!-- Section Afficher et gérer les dossiers FTP -->
+            <Border Grid.Row="4" BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Dossiers disponibles dans le répertoire FTP" Foreground="#1F2937" FontSize="18" Margin="0,0,0,10"/>
+                    <ListBox x:Name="FtpDirectoryListBox" Background="White" Foreground="Black" Height="150" BorderBrush="#D1D5DB" Margin="0,10,0,0"/>
 
-        <!-- Section Afficher et gérer les dossiers FTP -->
-        <StackPanel Grid.Row="5" Margin="0,100,0,0">
-            <TextBlock Text="Dossiers disponibles dans le répertoire FTP" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
-            <ListBox x:Name="FtpDirectoryListBox" Background="Gray" Foreground="White" Height="150" Margin="0,10,0,0"/>
+                    <!-- Boutons Rafraîchir et Supprimer -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,10,0,0">
+                        <Button Content="Rafraîchir" Width="200" Height="40" FontSize="16" FontWeight="Bold" Margin="10,0,0,0" Click="OnRefreshFtpDirectory_Click">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#60A5FA" Offset="0.0"/>
+                                    <GradientStop Color="#3B82F6" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Effect>
+                                <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3"/>
+                            </Button.Effect>
+                        </Button>
 
-            <!-- Boutons Rafraîchir et Supprimer -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-                <Button Content="Rafraîchir la liste des dossiers" Width="200" Click="OnRefreshFtpDirectory_Click"/>
-                <Button Content="Supprimer le fichier" Width="150" Margin="10,0,0,0" Click="OnDeleteSelectedFtpDirectory_Click"/>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+                        <Button Content="Supprimer Dossier" Width="200" Height="40" FontSize="16" FontWeight="Bold" Margin="10,0,0,0" Click="OnDeleteSelectedFtpDirectory_Click">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF6666" Offset="0.0"/>
+                                    <GradientStop Color="#FF4444" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Effect>
+                                <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="3"/>
+                            </Button.Effect>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
 </UserControl>
