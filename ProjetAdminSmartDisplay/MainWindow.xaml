@@ -2,171 +2,151 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ProjetAdminSmartDisplay" Height="1000" Width="1920"
-        Background="#1E1E1E">
+        Background="#E5E7EB">
     <Window.Resources>
-        <!-- Styles et ressources importés depuis EcranView -->
-
         <!-- Style pour les TextBlocks -->
         <Style x:Key="LabelTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="#1F2937"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="0,10,0,5"/>
-            <!-- Effet d'ombre portée pour le texte -->
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="2" Opacity="0.7" BlurRadius="3"/>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Margin" Value="0,15,0,10"/>
         </Style>
 
         <!-- Style pour les Boutons -->
         <Style x:Key="CustomButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="250"/>
+            <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="50"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="Background">
                 <Setter.Value>
-                    <!-- Dégradé pour le fond du bouton -->
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#FF444444" Offset="0"/>
-                        <GradientStop Color="#FF222222" Offset="1"/>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#3B82F6" Offset="0.0"/>
+                        <GradientStop Color="#2563EB" Offset="1.0"/>
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="BorderBrush" Value="White"/>
-            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#2563EB"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <!-- Ombre portée plus prononcée -->
-                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="4" Opacity="0.7" BlurRadius="5"/>
+                    <DropShadowEffect Color="#000000" Direction="0" ShadowDepth="4" Opacity="0.3" BlurRadius="8"/>
                 </Setter.Value>
             </Setter>
-            <!-- Coins arrondis -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5">
+                                CornerRadius="20">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-
-        <!-- Style pour le bouton émoji -->
-        <Style x:Key="EmojiButtonStyle" TargetType="Button">
-            <Setter Property="FontSize" Value="32"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
-            
-            <!-- Effet d'ombre portée pour le bouton -->
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="2" Opacity="0.7" BlurRadius="5"/>
-                </Setter.Value>
-            </Setter>
-            <!-- Effet au survol -->
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Opacity" Value="0.8"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#60A5FA" Offset="0.0"/>
+                                <GradientStop Color="#3B82F6" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
                     <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-        <!-- Arrière-plan pour les côtés -->
-        <LinearGradientBrush x:Key="SideBackground" StartPoint="0,0" EndPoint="0,1">
-            <GradientStop Color="#FF000000" Offset="0"/>
-            <GradientStop Color="#FF1A1A1A" Offset="1"/>
-        </LinearGradientBrush>
     </Window.Resources>
 
     <Grid>
         <!-- Définition des colonnes -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <!-- Colonne gauche pour la navigation -->
+            <ColumnDefinition Width="350"/>
+            <!-- Colonne gauche pour le menu -->
             <ColumnDefinition Width="*"/>
             <!-- Zone principale -->
         </Grid.ColumnDefinitions>
 
-        <!-- Côté gauche avec arrière-plan et effet -->
-        <Border Grid.Column="0" >
-            <Border.Effect>
-                <!-- Lueur externe pour ajouter du relief -->
-                <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.8" BlurRadius="10"/>
-            </Border.Effect>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" >
-                <!-- Bouton "Ecran" -->
-                <Button Content="Ecran" 
-                        Style="{StaticResource CustomButtonStyle}"
-                        Click="EcranButton_Click"/>
-                <!-- Bouton "Envoyer un Document" -->
-                <Button Content="Envoyer un Document"
-                        Style="{StaticResource CustomButtonStyle}"
-                        Click="EnvoyerDocumentButton_Click"/>
-                <Button Content="Ajouter Des Classes" 
-                        Style="{StaticResource CustomButtonStyle}"
-                        Click="AddClasse_Click"/>
-                <Button Content="Supprimer Les Salles" 
-                        Style="{StaticResource CustomButtonStyle}"
-                        Click="SupprimerLesSalles_Click"/>
-                <Button Content="🏠" Style="{StaticResource EmojiButtonStyle}"  Click="HomeButton_Click" Margin="0,600,0,0" HorizontalAlignment="Left"/>
-
-
-            </StackPanel>
-            
-
-            
-
-            <!-- Bouton avec émoji pour revenir à la MainWindow -->
-                
-        </Border>
-            
-
-        <!-- Séparateur entre le côté gauche et la zone principale -->
-        <Grid Grid.Column="0" HorizontalAlignment="Right" Width="15">
-            <!-- Bordure avec dégradé pour l'effet 3D -->
-            <Border Width="15">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="Transparent" Offset="0"/>
-                        <GradientStop Color="#FF555555" Offset="0.3"/>
-                        <GradientStop Color="#FF222222" Offset="0.5"/>
-                        <GradientStop Color="#FF555555" Offset="0.7"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
-            <!-- Bordure pour l'ombre portée -->
-            <Border Width="15">
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="5" Opacity="0.6" BlurRadius="10"/>
-                </Border.Effect>
-            </Border>
-        </Grid>
-
-        <!-- Zone principale avec le logo et le titre centrés à droite -->
-        <Border Grid.Column="1" >
-
-            <Grid Grid.Column="1">
-                <!-- ContentControl pour afficher dynamiquement le contenu -->
-                <ContentControl x:Name="MainContentControl" />
-
-                <!-- Logo et titre (par défaut quand aucun contenu n'est chargé) -->
-                <StackPanel x:Name="LogoStackPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-                    <Image Source="Ressource/VraiLogo.png" Width="950" Height="650" Stretch="Uniform"/>
-                    <TextBlock Text="ProjetSmartDisplay" Foreground="White" FontSize="52" FontWeight="Bold" Margin="0,10,0,0"
-                           TextAlignment="Center" Style="{StaticResource LabelTextStyle}"/>
+        <!-- Côté gauche avec le menu -->
+        <Border Grid.Column="0" Background="#374151" CornerRadius="15" Margin="20">
+            <Grid>
+                <TextBlock Text="AdminPannel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30"/>
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,80,0,0">
+                    <Button Content="Ecran" Style="{StaticResource CustomButtonStyle}" Click="EcranButton_Click"/>
+                    <Button Content="Envoyer un Document" Style="{StaticResource CustomButtonStyle}" Click="EnvoyerDocumentButton_Click"/>
+                    <Button Content="Ajouter Des Classes" Style="{StaticResource CustomButtonStyle}" Click="AddClasse_Click"/>
+                    <Button Content="Supprimer Les Salles" Style="{StaticResource CustomButtonStyle}" Click="SupprimerLesSalles_Click"/>
                 </StackPanel>
+                <Button Content="🏠" Style="{StaticResource CustomButtonStyle}" Click="HomeButton_Click" VerticalAlignment="Bottom" Margin="0,20"/>
             </Grid>
+        </Border>
+
+        <!-- Zone principale avec le logo en grand à droite -->
+        <Border Grid.Column="1" Background="#F3F4F6" CornerRadius="15" Margin="20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Name="MainContentControl">
+                <Grid Name="AllContent">
+                    <StackPanel VerticalAlignment="Top" Margin="20">
+                        <!-- Encadrer la première section -->
+                        <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                            <StackPanel>
+                                <TextBlock Text="ProjetSmartDisplay" FontSize="32" FontWeight="Bold" Foreground="Black" Margin="0,10,0,20" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Qu'est-ce que le ProjetSmartDisplay?" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Le ProjetSmartDisplay est un dispositif intelligent conçu pour afficher des informations personnalisées en temps réel sur un écran. Idéal pour la maison ou les entreprises, il permet de centraliser et d'automatiser l'affichage de données utiles comme la météo, l'agenda ou les notifications importantes." FontSize="20" Foreground="#374151" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,10,0,20"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Encadrer la section Fonctionnalités -->
+                        <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                            <StackPanel>
+                                <TextBlock Text="Fonctionnalités" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
+                                    <StackPanel Margin="20" Width="300">
+                                        <TextBlock Text="Affichage en temps réel" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="Des données comme la météo, les nouvelles ou des notifications." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="20" Width="300">
+                                        <TextBlock Text="Personnalisation" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="L'utilisateur peut ajuster les informations qu'il veut voir." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="20" Width="300">
+                                        <TextBlock Text="Accessibilité" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="Peut-être multi-plateforme, accessible sur web et mobile." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Encadrer la section Menus de l'application -->
+                        <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                            <StackPanel>
+                                <TextBlock Text="Menus de l'application" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Vertical" Margin="0,10,0,10">
+                                    <StackPanel Margin="20" Width="600">
+                                        <TextBlock Text="Ecrans" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="Sert à voir les différents écrans disponibles et à supprimer les images ou vidéos." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="20" Width="600">
+                                        <TextBlock Text="Envoyer un Document" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="Sert à envoyer les photos et les vidéos pour que les écrans aient accès à cela." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="20" Width="600">
+                                        <TextBlock Text="Ajouter Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="Permet de créer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="20" Width="600">
+                                        <TextBlock Text="Supprimer Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="Permet de supprimer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
         </Border>
     </Grid>
 </Window>
