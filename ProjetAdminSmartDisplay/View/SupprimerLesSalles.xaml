@@ -83,6 +83,7 @@
 
             <!-- Titre principal -->
             <TextBlock Grid.Row="0" Text="Supprimer des Éléments" 
+                       FontFamily="Miriam Mono CLM BoldOblique"
                        FontSize="32" 
                        FontWeight="Bold" 
                        Foreground="#5E81AC" 
@@ -92,7 +93,7 @@
             <!-- Section Supprimer un Bâtiment -->
             <Border Grid.Row="1" BorderBrush="#5E81AC" BorderThickness="2" CornerRadius="12" Padding="20" Margin="0,0,0,20">
                 <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Supprimer un Bâtiment" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
+                    <TextBlock Text="Supprimer un Bâtiment" FontFamily="Arial" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
                     <ComboBox x:Name="BatimentComboBox" Width="300" Height="35" DisplayMemberPath="NomBatiment" SelectedValuePath="Id" Background="#4C566A" BorderBrush="#5E81AC" Margin="0,0,0,10" Foreground="Black"/>
                     <Button Content="Supprimer Bâtiment" Style="{StaticResource CustomButtonStyle}" Click="OnDeleteBatiment_Click" HorizontalAlignment="Center" Margin="10,20,0,0"/>
                 </StackPanel>
@@ -101,7 +102,7 @@
             <!-- Section Supprimer un Étage -->
             <Border Grid.Row="2" BorderBrush="#5E81AC" BorderThickness="2" CornerRadius="12" Padding="20" Margin="0,0,0,20">
                 <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Supprimer un Étage" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
+                    <TextBlock Text="Supprimer un Étage" FontFamily="Arial" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
                     <ComboBox x:Name="EtageComboBox" Width="300" Height="35" DisplayMemberPath="NomEtage" SelectedValuePath="Id" Background="#4C566A" BorderBrush="#5E81AC" Margin="0,0,0,10" Foreground="Black"/>
                     <Button Content="Supprimer Étage" Style="{StaticResource CustomButtonStyle}" Click="OnDeleteEtage_Click" HorizontalAlignment="Center" Margin="10,20,0,0"/>
                 </StackPanel>
@@ -110,7 +111,7 @@
             <!-- Section Supprimer une Classe -->
             <Border Grid.Row="3" BorderBrush="#5E81AC" BorderThickness="2" CornerRadius="12" Padding="20" Margin="0,0,0,20">
                 <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Supprimer une Classe" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
+                    <TextBlock Text="Supprimer une Classe" FontFamily="Arial" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
                     <ComboBox x:Name="ClasseComboBox" Width="300" Height="35" DisplayMemberPath="NomSalle" SelectedValuePath="Id" Background="#4C566A" BorderBrush="#5E81AC" Margin="0,0,0,10" Foreground="Black"/>
                     <Button Content="Supprimer Classe" Style="{StaticResource CustomButtonStyle}" Click="OnDeleteClasse_Click" HorizontalAlignment="Center" Margin="10,20,0,0"/>
                 </StackPanel>
@@ -119,7 +120,7 @@
             <!-- Section Afficher et gérer les dossiers FTP -->
             <Border Grid.Row="4" BorderBrush="#5E81AC" BorderThickness="2" CornerRadius="12" Padding="20" Margin="0,0,0,20">
                 <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Dossiers disponibles dans le répertoire FTP" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
+                    <TextBlock Text="Dossiers disponibles dans le répertoire FTP" FontFamily="Arial" Foreground="#D8DEE9" FontSize="18" Margin="0,0,0,10"/>
                     <ListBox x:Name="FtpDirectoryListBox" Background="#4C566A" Foreground="White" Height="125" BorderBrush="#5E81AC" Margin="0,10,0,0"/>
 
                     <!-- Boutons Rafraîchir et Supprimer -->

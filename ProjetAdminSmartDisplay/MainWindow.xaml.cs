@@ -9,6 +9,7 @@ namespace ProjetAdminSmartDisplay
         
         private object _initialContent;
         private string _username;
+        
 
         public MainWindow(string username)
         {
@@ -17,6 +18,7 @@ namespace ProjetAdminSmartDisplay
             WindowState = WindowState.Maximized;
             _username = username;
             UpdateWelcomeMessage();
+            
 
             // Sauvegarder le contenu initial de MainContentControl
             if (MainContentControl != null)
@@ -24,6 +26,9 @@ namespace ProjetAdminSmartDisplay
                 _initialContent = MainContentControl.Content;
             }
         }
+
+        // Méthode pour gérer la fermeture de l'application
+       
 
         private void UpdateWelcomeMessage()
         {

@@ -1,12 +1,117 @@
 ﻿<UserControl x:Class="ProjetAdminSmartDisplay.View.Message"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProjetAdminSmartDisplay.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Height="900" Width="1485" Background="#2C2F33">
+
+    <UserControl.Resources>
+
+        <!-- Style pour les Boutons -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#3B4252" Offset="0.0"/>
+                        <!-- Bleu-gris foncé -->
+                        <GradientStop Color="#4C566A" Offset="1.0"/>
+                        <!-- Gris bleuâtre -->
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#5E81AC"/>
+            <!-- Bordure bleu clair -->
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" Direction="0" ShadowDepth="4" Opacity="0.3" BlurRadius="8"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#4C566A" Offset="0.0"/>
+                                <GradientStop Color="#3B4252" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style pour les Bordures -->
+        <Style x:Key="BorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#5E81AC"/>
+            <!-- Bordure bleu clair -->
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+
+    </UserControl.Resources>
+
+
+
+    <Grid Background="#2C2F33">
+        <Border Background="#3B4252" Style="{StaticResource BorderStyle}" Margin="20">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="400">
+
+                <!-- Header -->
+                <TextBlock FontFamily="Miriam Mono CLM BoldOblique" Text="Publier un message" FontSize="24" FontWeight="Bold" Foreground="#E0E0E0" TextAlignment="Center" Margin="0,0,0,20" />
+
+                <!-- Classe Selection -->
+                <TextBlock FontFamily="Miriam Mono CLM" Text="Sélectionner la classe :" FontWeight="SemiBold" Foreground="#E0E0E0" Margin="0,10,0,5"/>
+                <ComboBox x:Name="ClasseComboBox" Width="300" Height="30" Background="#FFF" Foreground="#333" BorderBrush="#D1D5DB" />
+
+                <!-- Message Input -->
+                <TextBlock  FontFamily="Miriam Mono CLM" Text="Message :" FontWeight="SemiBold" Foreground="#E0E0E0" Margin="0,100,0,5"/>
+                <TextBox x:Name="MessageTextBox" Height="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Width="300" Background="#FFF" BorderBrush="#D1D5DB"/>
+
+                <!-- Publish Button -->
+                <Button Content="Publier" Style="{StaticResource CustomButtonStyle}" Margin="0,20,0,0" Click="PublishButton_Click"/>
+
+                <!-- Afficher Messages Button -->
+                <Button Content="Afficher les messages" Style="{StaticResource CustomButtonStyle}" Margin="0,100,0,0" Click="AfficherMessagesButton_Click"/>
+
+                <!-- Messages List -->
+                <ListBox x:Name="MessagesListBox" Width="300" Height="150" Margin="0,20,0,0" Background="White" BorderBrush="#D1D5DB">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <TextBlock Text="Message :" FontWeight="SemiBold" Foreground="#1F2937" />
+                                <TextBlock Text="{Binding Message}" FontWeight="Bold" Foreground="#1F2937"/>
+                                <TextBlock Text="Salle :" FontWeight="SemiBold" Foreground="#1F2937" />
+                                <TextBlock Text="{Binding NomSalle}" Foreground="Gray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!-- Delete Button -->
+                <Button Content="Supprimer le message sélectionné" Style="{StaticResource CustomButtonStyle}" Width="300" Margin="0,20,0,0" Click="DeleteMessageButton_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
