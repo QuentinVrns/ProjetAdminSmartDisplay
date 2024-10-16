@@ -5,15 +5,83 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <!-- Style pour les Boutons -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#3B4252" Offset="0.0"/>
+                        <!-- Bleu-gris foncé -->
+                        <GradientStop Color="#4C566A" Offset="1.0"/>
+                        <!-- Gris bleuâtre -->
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#5E81AC"/>
+            <!-- Bordure bleu clair -->
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" Direction="0" ShadowDepth="4" Opacity="0.3" BlurRadius="8"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="red" Offset="0.0"/>
+                                
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style pour les Bordures -->
+        <Style x:Key="BorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#5E81AC"/>
+            <!-- Bordure bleu clair -->
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+
+    </UserControl.Resources>
+    
     <Grid Background="#2C2F33">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-            <TextBlock Text="Alerte" FontSize="24" FontWeight="Bold" Foreground="#5E81AC" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        <Border Background="#3B4252" Style="{StaticResource BorderStyle}" Margin="20">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                <TextBlock Text="Alerte" FontSize="32" FontWeight="Bold" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-            <Button Content="INCENDIE" Width="200" Height="50" Click="BtnIncendie_Click" Margin="10" Background="#E74C3C" Foreground="White"/>
-            <Button Content="INTRUSION" Width="200" Height="50" Click="BtnIntrusion_Click" Margin="10" Background="#3498DB" Foreground="White"/>
-            <Button Content="EVACUATION AUTRE DANGER" Width="200" Height="50" Click="BtnEvacuation_Click" Margin="10" Background="#F39C12" Foreground="White"/>
-
-            <Button Content="Désactiver l'Alerte" Width="200" Height="50" Click="BtnDisableAlert_Click" Margin="20,40,20,0" Background="#2C3E50" Foreground="White"/>
-        </StackPanel>
+                <Button Content="INCENDIE" Style="{StaticResource CustomButtonStyle}" Margin="10" Click="BtnIncendie_Click"/>
+                <Button Content="INTRUSION" Style="{StaticResource CustomButtonStyle}" Margin="10" Click="BtnIntrusion_Click"/>
+                <Button Content="EVACUATION AUTRE DANGER" Style="{StaticResource CustomButtonStyle}" Width="300" Margin="10" Click="BtnEvacuation_Click"/>
+                <Button Content="Désactiver l'Alerte" Style="{StaticResource CustomButtonStyle}" Margin="20,40,20,0" Click="BtnDisableAlert_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
