@@ -72,5 +72,23 @@ namespace ProjetAdminSmartDisplay
                 MainContentControl.Content = _initialContent;
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainContentControl != null)
+            {
+                MainContentControl.Content = new Alerte();
+            }
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (MainContentControl != null)
+            {
+                MainContentControl.Content = new Message();
+            }
+
+        }
     }
 }

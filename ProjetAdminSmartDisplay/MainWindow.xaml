@@ -4,38 +4,30 @@
         xmlns:local="clr-namespace:ProjetAdminSmartDisplay" 
         
     Title="ProjetAdminSmartDisplay" Height="1000" Width="1920"
-        Background="#E5E7EB">
+        Background="#2C2F33"> <!-- Fond sombre gris anthracite -->
 
     <Window.Resources>
-        
-        <!-- Style pour les TextBlocks -->
-        <Style x:Key="LabelTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Foreground" Value="#1F2937"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="0,15,0,10"/>
-        </Style>
 
         <!-- Style pour les Boutons -->
         <Style x:Key="CustomButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Height" Value="55"/>
             <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/> <!-- Texte blanc -->
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#3B82F6" Offset="0.0"/>
-                        <GradientStop Color="#2563EB" Offset="1.0"/>
+                        <GradientStop Color="#3B4252" Offset="0.0"/> <!-- Bleu-gris foncé -->
+                        <GradientStop Color="#4C566A" Offset="1.0"/> <!-- Gris bleuâtre -->
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="BorderBrush" Value="#2563EB"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="#5E81AC"/> <!-- Bleu clair pour la bordure -->
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#000000" Direction="0" ShadowDepth="4" Opacity="0.3" BlurRadius="8"/>
+                    <DropShadowEffect Color="#000000" Direction="0" ShadowDepth="4" Opacity="0.2" BlurRadius="10"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -44,7 +36,7 @@
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="20">
+                                CornerRadius="10">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -55,8 +47,8 @@
                     <Setter Property="Background">
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#60A5FA" Offset="0.0"/>
-                                <GradientStop Color="#3B82F6" Offset="1.0"/>
+                                <GradientStop Color="#4C566A" Offset="0.0"/> <!-- Survol avec bleu plus clair -->
+                                <GradientStop Color="#3B4252" Offset="1.0"/>
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
@@ -65,11 +57,18 @@
             </Style.Triggers>
         </Style>
 
-        
+        <!-- Style pour les Bordures -->
+        <Style x:Key="BorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#5E81AC"/> <!-- Bleu clair pour la cohérence -->
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
-        <!-- Nouvelle Grid pour le message de bienvenue et la barre de recherche -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -77,13 +76,8 @@
 
         <!-- Barre de bienvenue -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Margin="400,20,0,0">
-            <TextBlock x:Name="WelcomeTextBlock" FontSize="28" FontWeight="Bold" Foreground="Black" VerticalAlignment="Center"/>
-            <TextBlock Text="👋" FontSize="28" VerticalAlignment="Center" Margin="10,0,20,0"/>
-
-            
-
-            <!-- Avatar utilisateur -->
-
+            <TextBlock FontFamily="Miriam Mono CLM BoldOblique" x:Name="WelcomeTextBlock" FontSize="28" FontWeight="Bold" Foreground="#5E81AC" VerticalAlignment="Center"/> <!-- Bleu clair pour le texte de bienvenue -->
+            <TextBlock Text="👋" FontSize="28" VerticalAlignment="Center" Foreground="#5E81AC" Margin="10,0,20,0"/>
         </StackPanel>
 
         <!-- Contenu principal dans la deuxième ligne -->
@@ -95,74 +89,76 @@
             </Grid.ColumnDefinitions>
 
             <!-- Côté gauche avec le menu -->
-            <Border Grid.Column="0" Background="#374151" CornerRadius="15" Margin="20,20,20,20">
+            <Border Grid.Column="0" Background="#2F343F" CornerRadius="15" Margin="20,20,20,20"> <!-- Couleur d'arrière-plan gris bleu foncé -->
                 <Grid>
-                    <TextBlock Text="AdminPannel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30"/>
+                    <TextBlock Text="AdminPannel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" FontFamily="Miriam Mono CLM BoldOblique" HorizontalAlignment="Center" Margin="0,20,0,30"/>
                     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,80,0,0">
-                        <Button Content="Ecran" Style="{StaticResource CustomButtonStyle}" Click="EcranButton_Click"/>
-                        <Button Content="Envoyer un Document" Style="{StaticResource CustomButtonStyle}" Click="EnvoyerDocumentButton_Click"/>
-                        <Button Content="Ajouter Des Classes" Style="{StaticResource CustomButtonStyle}" Click="AddClasse_Click"/>
-                        <Button Content="Supprimer Les Salles" Style="{StaticResource CustomButtonStyle}" Click="SupprimerLesSalles_Click"/>
+                        <Button Content="Ecran" Style="{StaticResource CustomButtonStyle}" Click="EcranButton_Click" FontFamily="Arial"/>
+                        <Button Content="Envoyer un Document" Style="{StaticResource CustomButtonStyle}" Click="EnvoyerDocumentButton_Click" FontFamily="Arial"/>
+                        <Button Content="Ajouter Des Classes" Style="{StaticResource CustomButtonStyle}" Click="AddClasse_Click" FontFamily="Arial"/>
+                        <Button Content="Supprimer Les Salles" Style="{StaticResource CustomButtonStyle}" Click="SupprimerLesSalles_Click" FontFamily="Arial"/>
+                        <Button Content="Alerte" Style="{StaticResource CustomButtonStyle}"  FontFamily="Arial" Click="Button_Click"/>
+                        <Button Content="Afficher un Message" Style="{StaticResource CustomButtonStyle}"  FontFamily="Arial" Click="Button_Click_1"/>
                     </StackPanel>
                     <Button Content="🏠" Style="{StaticResource CustomButtonStyle}" Click="HomeButton_Click" VerticalAlignment="Bottom" Margin="0,20"/>
                 </Grid>
             </Border>
 
             <!-- Zone principale avec le logo en grand à droite -->
-            <Border Grid.Column="1" Background="#F3F4F6" CornerRadius="15" Margin="20,20,20,20" Grid.ColumnSpan="2">
+            <Border Grid.Column="1" Background="#3B4252" Width="1500" CornerRadius="15" Margin="20,20,20,20" Grid.ColumnSpan="2">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Name="MainContentControl">
                     <Grid Name="AllContent">
                         <StackPanel VerticalAlignment="Top" Margin="20">
                             <!-- Encadrer la première section -->
-                            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                            <Border Style="{StaticResource BorderStyle}">
                                 <StackPanel>
-                                    <TextBlock Text="ProjetSmartDisplay" FontSize="32" FontWeight="Bold" Foreground="Black" Margin="0,10,0,20" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="Qu'est-ce que le ProjetSmartDisplay?" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,20,0,10" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="Le ProjetSmartDisplay est un dispositif intelligent conçu pour afficher des informations personnalisées en temps réel sur un écran. Idéal pour la maison ou les entreprises, il permet de centraliser et d'automatiser l'affichage de données utiles comme la météo, l'agenda ou les notifications importantes." FontSize="20" Foreground="#374151" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,10,0,20"/>
+                                    <TextBlock Text="ProjetSmartDisplay" FontSize="32" FontWeight="Bold"  Foreground="#FFFFFF" Margin="0,10,0,20" HorizontalAlignment="Center" FontFamily="Miriam Mono CLM BoldOblique"/>
+                                    <TextBlock Text="Qu'est-ce que le ProjetSmartDisplay?" FontSize="26" FontFamily="Miriam Mono CLM BoldOblique" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+                                    <TextBlock FontFamily="Arial" Text="Le ProjetSmartDisplay est un dispositif intelligent conçu pour afficher des informations personnalisées en temps réel sur un écran. Idéal pour la maison ou les entreprises, il permet de centraliser et d'automatiser l'affichage de données utiles comme la météo, l'agenda ou les notifications importantes." FontSize="20" Foreground="#D8DEE9" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,10,0,20"/> <!-- Texte descriptif gris clair -->
                                 </StackPanel>
                             </Border>
 
                             <!-- Encadrer la section Fonctionnalités -->
-                            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                            <Border Style="{StaticResource BorderStyle}">
                                 <StackPanel>
-                                    <TextBlock Text="Fonctionnalités" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Fonctionnalités" FontFamily="Miriam Mono CLM BoldOblique" FontSize="26" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,50,0,10" HorizontalAlignment="Center"/>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
                                         <StackPanel Margin="20" Width="300">
-                                            <TextBlock Text="Affichage en temps réel" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="Des données comme la météo, les nouvelles ou des notifications." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock Text="Affichage en temps réel" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center" FontFamily="Miriam Mono CLM"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="Des données comme la météo, les nouvelles ou des notifications." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                         <StackPanel Margin="20" Width="300">
-                                            <TextBlock Text="Personnalisation" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="L'utilisateur peut ajuster les informations qu'il veut voir." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock FontFamily="Miriam Mono CLM" Text="Personnalisation" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="L'utilisateur peut ajuster les informations qu'il veut voir." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                         <StackPanel Margin="20" Width="300">
-                                            <TextBlock Text="Accessibilité" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="Peut-être multi-plateforme, accessible sur web et mobile." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock FontFamily="Miriam Mono CLM" Text="Accessibilité" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="Peut-être multi-plateforme, accessible sur web et mobile." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
 
                             <!-- Encadrer la section Menus de l'application -->
-                            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="10" Padding="10" Margin="0,0,0,20">
+                            <Border Style="{StaticResource BorderStyle}">
                                 <StackPanel>
-                                    <TextBlock Text="Menus de l'application" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="0,50,0,10" HorizontalAlignment="Center"/>
+                                    <TextBlock FontFamily="Miriam Mono CLM BoldOblique" Text="Menus de l'application" FontSize="26" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,50,0,10" HorizontalAlignment="Center"/>
                                     <StackPanel Orientation="Vertical" Margin="0,10,0,10">
                                         <StackPanel Margin="20" Width="600">
-                                            <TextBlock Text="Ecrans" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="Sert à voir les différents écrans disponibles et à supprimer les images ou vidéos." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock FontFamily="Miriam Mono CLM" Text="Ecrans" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="Sert à voir les différents écrans disponibles et à supprimer les images ou vidéos." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                         <StackPanel Margin="20" Width="600">
-                                            <TextBlock Text="Envoyer un Document" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="Sert à envoyer les photos et les vidéos pour que les écrans aient accès à cela." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock FontFamily="Miriam Mono CLM" Text="Envoyer un Document" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="Sert à envoyer les photos et les vidéos pour que les écrans aient accès à cela." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                         <StackPanel Margin="20" Width="600">
-                                            <TextBlock Text="Ajouter Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="Permet de créer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock FontFamily="Miriam Mono CLM" Text="Ajouter Des Classes" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="Permet de créer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                         <StackPanel Margin="20" Width="600">
-                                            <TextBlock Text="Supprimer Des Classes" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5" HorizontalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Center" Text="Permet de supprimer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#374151" TextWrapping="Wrap"/>
+                                            <TextBlock FontFamily="Miriam Mono CLM" Text="Supprimer Des Classes" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="Arial" HorizontalAlignment="Center" Text="Permet de supprimer des nouveaux afficheurs dans la BDD." FontSize="18" Foreground="#D8DEE9" TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>

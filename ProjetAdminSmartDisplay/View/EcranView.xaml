@@ -1,122 +1,195 @@
 ﻿<UserControl x:Class="ProjetAdminSmartDisplay.EcranView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="1100" Width="1700" Background="#E5E7EB">
+             Height="1100" Width="1485" Background="#2C2F33">
+    <!-- Fond sombre gris anthracite -->
 
-    <!-- Bordure globale -->
-    <Border Background="#F3F4F6" CornerRadius="15" Margin="10">
+    <UserControl.Resources>
 
-        <Grid Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- Style pour les Boutons -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#3B4252" Offset="0.0"/>
+                        <!-- Bleu-gris foncé -->
+                        <GradientStop Color="#4C566A" Offset="1.0"/>
+                        <!-- Gris bleuâtre -->
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#5E81AC"/>
+            <!-- Bordure bleu clair -->
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" Direction="0" ShadowDepth="4" Opacity="0.3" BlurRadius="8"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#4C566A" Offset="0.0"/>
+                                <GradientStop Color="#3B4252" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-            <!-- Titre principal -->
-            <TextBlock Text="Gestion des Ecrans" 
-                       FontSize="32" 
-                       FontWeight="Bold" 
-                       Foreground="#1F2937" 
-                       HorizontalAlignment="Center" 
-                       Margin="0,10,0,20"/>
+        <!-- Style pour les Bordures -->
+        <Style x:Key="BorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#5E81AC"/>
+            <!-- Bordure bleu clair -->
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
 
-            <!-- Section Batiment et Etage avec encadrement -->
-            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20" Grid.Row="1">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <!-- ComboBox Batiment -->
-                    <StackPanel Orientation="Vertical" Margin="20">
-                        <TextBlock Text="🏢 Choix Batiment" Foreground="#1F2937" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                        <ComboBox x:Name="BatimentComboBox"
-                                  Width="250"
-                                  Height="40"
-                                  Foreground="Black"
-                                  Background="White"
-                                  BorderBrush="#D1D5DB"
-                                  FontSize="16"
-                                  DisplayMemberPath="NomBatiment"
-                                  SelectedValuePath="Id"
-                                  SelectionChanged="OnBatimentSelectionChanged"
-                                  Margin="10"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- Contenu principal -->
+        <Border Background="#3B4252" Style="{StaticResource BorderStyle}" Margin="20">
+            <!-- Fond principal gris bleuâtre -->
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Titre principal -->
+                <TextBlock Text="Gestion des Ecrans" 
+                           FontSize="32" 
+                           FontWeight="Bold" 
+                           Foreground="#E0E0E0" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,10,0,20"
+                           FontFamily="Miriam Mono CLM BoldOblique"/>
+
+                <!-- Section Batiment et Etage avec encadrement -->
+                <Border Style="{StaticResource BorderStyle}" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <!-- ComboBox Batiment -->
+                        <StackPanel Orientation="Vertical" Margin="20">
+                            <TextBlock Text="🏢 Choix Batiment" Foreground="#E0E0E0" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10" FontFamily="Miriam Mono CLM"/>
+                            <ComboBox x:Name="BatimentComboBox"
+                                      Width="250"
+                                      Height="40"
+                                      Foreground="Black"
+                                      Background="White"
+                                      BorderBrush="#D1D5DB"
+                                      FontSize="16"
+                                      DisplayMemberPath="NomBatiment"
+                                      SelectedValuePath="Id"
+                                      SelectionChanged="OnBatimentSelectionChanged"
+                                      Margin="10"/>
+                        </StackPanel>
+
+                        <!-- ComboBox Etage -->
+                        <StackPanel Orientation="Vertical" Margin="20">
+                            <TextBlock Text="🏬 Choix Etage" Foreground="#E0E0E0" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10" FontFamily="Miriam Mono CLM"/>
+                            <ComboBox x:Name="EtageComboBox"
+                                      Width="250"
+                                      Height="40"
+                                      Foreground="Black"
+                                      Background="White"
+                                      BorderBrush="#D1D5DB"
+                                      FontSize="16"
+                                      DisplayMemberPath="NomEtage"
+                                      SelectedValuePath="Id"
+                                      SelectionChanged="OnEtageSelectionChanged"
+                                      Margin="10"/>
+                        </StackPanel>
                     </StackPanel>
+                </Border>
 
-                    <!-- ComboBox Etage -->
-                    <StackPanel Orientation="Vertical" Margin="20">
-                        <TextBlock Text="🏬 Choix Etage" Foreground="#1F2937" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                        <ComboBox x:Name="EtageComboBox"
-                                  Width="250"
-                                  Height="40"
-                                  Foreground="Black"
-                                  Background="White"
-                                  BorderBrush="#D1D5DB"
-                                  FontSize="16"
-                                  DisplayMemberPath="NomEtage"
-                                  SelectedValuePath="Id"
-                                  SelectionChanged="OnEtageSelectionChanged"
-                                  Margin="10"/>
+                <!-- Section des salles avec encadrement -->
+                <Border Style="{StaticResource BorderStyle}" Grid.Row="2">
+                    <StackPanel>
+                        <TextBlock Text="Liste des Salles" FontSize="26" FontWeight="Bold" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,20" FontFamily="Miriam Mono CLM"/>
+                        <ItemsControl x:Name="RoomsControl">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
+                                        <!-- Encadrement autour du nom de la salle -->
+                                        <Border Background="White" CornerRadius="10" Padding="10" BorderBrush="#D1D5DB" BorderThickness="2">
+                                            <TextBlock Text="{Binding NomSalle}" 
+                                                       Foreground="#1F2937" 
+                                                       FontSize="16" 
+                                                       FontWeight="Bold" 
+                                                       HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <!-- Bouton Sélectionner -->
+                                        <Button Content="Sélectionner 🔍" 
+                                                Style="{StaticResource CustomButtonStyle}"
+                                                Margin="10"
+                                                Click="OnRoomSelected_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
-                </StackPanel>
-            </Border>
+                </Border>
 
-            <!-- Section des salles avec encadrement -->
-            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20" Grid.Row="2">
-                <StackPanel>
-                    <TextBlock Text="Liste des Salles" FontSize="26" FontWeight="Bold" Foreground="#1F2937" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                    <ItemsControl x:Name="RoomsControl">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
-                                    <!-- Encadrement autour du nom de la salle -->
-                                    <Border Background="White" CornerRadius="10" Padding="10" BorderBrush="#D1D5DB" BorderThickness="2">
-                                        <TextBlock Text="{Binding NomSalle}" 
-                                                   Foreground="#1F2937" 
-                                                   FontSize="16" 
-                                                   FontWeight="Bold" 
-                                                   HorizontalAlignment="Center"/>
-                                    </Border>
-                                    <!-- Bouton Sélectionner -->
-                                    <Button Content="Sélectionner 🔍" 
-                                            Width="160" 
-                                            Height="40"
-                                            Margin="10" 
-                                            Foreground="White" 
-                                            Background="#3B82F6" 
-                                            BorderBrush="#2563EB"
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            Click="OnRoomSelected_Click"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </Border>
+                <!-- Titre principal -->
+                <TextBlock Text="Gestion des Ecrans" 
+                           FontSize="32" 
+                           FontWeight="Bold" 
+                           Foreground="#E0E0E0" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,10,0,20"
+                           FontFamily="Miriam Mono CLM BoldOblique"/>
 
-            <!-- Section des images avec encadrement -->
-            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20" Grid.Row="3">
-                <StackPanel>
-                    <TextBlock Text="Images disponibles" FontSize="26" FontWeight="Bold" Foreground="#1F2937" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                    <ItemsControl x:Name="ImagesControl">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="10">
-                                    <Border Background="White" CornerRadius="10" BorderBrush="#D1D5DB" BorderThickness="2">
-                                        <Image Source="{Binding ImageSource}" Width="100" Height="100" Stretch="UniformToFill" />
-                                    </Border>
-                                    <Button Content="❌" 
+                <!-- Section des images -->
+                <Border Style="{StaticResource BorderStyle}" Grid.Row="3">
+                    <StackPanel>
+                        <TextBlock Text="Images disponibles" FontSize="26" FontWeight="Bold" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,20" FontFamily="Miriam Mono CLM"/>
+                        <ItemsControl x:Name="ImagesControl">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10">
+                                        <Border Background="White" CornerRadius="10" BorderBrush="#D1D5DB" BorderThickness="2">
+                                            <Image Source="{Binding ImageSource}" Width="100" Height="100" Stretch="UniformToFill" />
+                                        </Border>
+                                        <Button Content="❌" 
                                             Width="30" Height="30" 
+                                            Margin="-10,-10,-10,-10"
                                             HorizontalAlignment="Right" VerticalAlignment="Top"
                                             Click="DeleteImage_Click" 
                                             Background="#FF4444"
@@ -124,31 +197,33 @@
                                             FontWeight="Bold"
                                             BorderBrush="White"
                                             BorderThickness="1"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </Border>
+                                        <Button Width="100" Height="100" Background="Transparent" Click="OnImage_Click"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
 
-            <!-- Section des vidéos avec encadrement -->
-            <Border BorderBrush="#E5E7EB" BorderThickness="4" CornerRadius="15" Padding="20" Margin="0,0,0,20" Grid.Row="4">
-                <StackPanel>
-                    <TextBlock Text="Vidéos disponibles" FontSize="26" FontWeight="Bold" Foreground="#1F2937" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                    <ItemsControl x:Name="VideosControl">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="10">
-                                    <Border Background="White" CornerRadius="10" BorderBrush="#D1D5DB" BorderThickness="2">
-                                        <MediaElement Source="{Binding FileUrl}" Width="100" Height="100" LoadedBehavior="Play" />
-                                    </Border>
-                                    <Button Content="❌" 
-                                            Width="30" Height="30" 
+                <!-- Section des vidéos -->
+                <Border Style="{StaticResource BorderStyle}" Grid.Row="4">
+                    <StackPanel>
+                        <TextBlock Text="Vidéos disponibles" FontSize="26" FontWeight="Bold" Foreground="#E0E0E0" HorizontalAlignment="Center" Margin="0,0,0,20" FontFamily="Miriam Mono CLM"/>
+                        <ItemsControl x:Name="VideosControl">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10">
+                                        <Border Background="White" CornerRadius="10" BorderBrush="#D1D5DB" BorderThickness="2">
+                                            <MediaElement Source="{Binding FileUrl}" Width="100" Height="100" LoadedBehavior="Play" />
+                                        </Border>
+                                        <Button Content="❌" 
+                                            Width="30" Height="30"
+                                            Margin="-10,-10,-10,-10"
                                             HorizontalAlignment="Right" VerticalAlignment="Top"
                                             Click="DeleteImage_Click" 
                                             Background="#FF4444"
@@ -156,13 +231,23 @@
                                             FontWeight="Bold"
                                             BorderBrush="White"
                                             BorderThickness="1"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </Border>
-        </Grid>
+                                        <Button Width="100" Height="100" Background="Transparent" Click="OnVideo_Click"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
 
-    </Border>
+                <!-- Couche pour l'affichage en plein écran -->
+                <Grid x:Name="FullScreenOverlay" Background="#000000AA" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Width="500" Height="500">
+                    <Border BorderBrush="White" BorderThickness="5" CornerRadius="10" Margin="0,75,0,0">
+                        <Image x:Name="FullScreenImage" Visibility="Collapsed" Stretch="Uniform" />
+                    </Border>
+                    <MediaElement x:Name="FullScreenVideo" Visibility="Collapsed" LoadedBehavior="Play" Stretch="Uniform" />
+                    <Button  Content="✖" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,75,0,0" Click="CloseFullScreen_Click" Background="Transparent" Foreground="Red" FontSize="16"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

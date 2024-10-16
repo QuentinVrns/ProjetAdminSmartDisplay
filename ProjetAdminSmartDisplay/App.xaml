@@ -5,5 +5,6 @@
     <Application.Resources>
         <!-- Déclaration du convertisseur -->
         <local:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+        
     </Application.Resources>
 </Application>

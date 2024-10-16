@@ -70,6 +70,9 @@
     <Compile Include="View\AddClasse.xaml.cs">
       <DependentUpon>AddClasse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Alerte.xaml.cs">
+      <DependentUpon>Alerte.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EcranView.xaml.cs">
       <DependentUpon>EcranView.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,9 @@
     </Compile>
     <Compile Include="View\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Message.xaml.cs">
+      <DependentUpon>Message.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SupprimerLesSalles.xaml.cs">
       <DependentUpon>SupprimerLesSalles.xaml</DependentUpon>
@@ -98,6 +104,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Alerte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EcranView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,6 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Message.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

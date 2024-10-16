@@ -17,6 +17,9 @@ namespace ProjetAdminSmartDisplay
 {
     public partial class EcranView : UserControl
     {
+        
+
+        private bool isFullScreenOpen = false;
         private HttpClient _httpClient = new HttpClient();
         private List<Batiment> _batiments = new List<Batiment>();
         private List<Etage> _etages = new List<Etage>();
@@ -62,6 +65,58 @@ namespace ProjetAdminSmartDisplay
             {
                 MessageBox.Show($"Erreur lors du chargement des bâtiments : {ex.Message}");
             }
+        }
+
+        private void ToggleFullScreen()
+        {
+            if (isFullScreenOpen)
+            {
+                // Fermer le mode plein écran
+                FullScreenOverlay.Visibility = Visibility.Collapsed;
+                FullScreenImage.Source = null;
+                FullScreenVideo.Source = null;
+            }
+            else
+            {
+                // Afficher en mode plein écran
+                FullScreenOverlay.Visibility = Visibility.Visible;
+            }
+            isFullScreenOpen = !isFullScreenOpen; // Inverser l'état du plein écran
+        }
+
+        private void OnImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is MediaItem mediaItem)
+            {
+                if (!isFullScreenOpen)
+                {
+                    // Afficher l'image en plein écran
+                    FullScreenImage.Source = new BitmapImage(new Uri(mediaItem.FileUrl));
+                    FullScreenImage.Visibility = Visibility.Visible;
+                    FullScreenVideo.Visibility = Visibility.Collapsed;
+                }
+                ToggleFullScreen();
+            }
+        }
+
+        private void OnVideo_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is MediaItem mediaItem)
+            {
+                if (!isFullScreenOpen)
+                {
+                    // Afficher la vidéo en plein écran
+                    FullScreenVideo.Source = new Uri(mediaItem.FileUrl);
+                    FullScreenVideo.Visibility = Visibility.Visible;
+                    FullScreenImage.Visibility = Visibility.Collapsed;
+                }
+                ToggleFullScreen();
+            }
+        }
+
+        private void CloseFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleFullScreen();
         }
 
         private async void OnBatimentSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -317,6 +372,10 @@ namespace ProjetAdminSmartDisplay
                 // You can also handle videos here if needed
             }
 
+            
+
+
+
             private async void LoadImageAsync()
             {
                 try
@@ -360,6 +419,8 @@ namespace ProjetAdminSmartDisplay
                     });
                 }
             }
+
+
 
             public event PropertyChangedEventHandler PropertyChanged;
             protected void OnPropertyChanged(string propertyName) =>
