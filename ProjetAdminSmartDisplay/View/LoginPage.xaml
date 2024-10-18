@@ -5,17 +5,15 @@
         ResizeMode="NoResize" 
         WindowStyle="None" 
         AllowsTransparency="True"
-        Background="Transparent">
+        Background="#2C2F33"
+        >
     <!-- Définir le background ici et ne pas le redéfinir dans le Grid -->
 
     <Grid>
-        <!-- Fond sombre avec une image en arrière-plan -->
-        <Grid.Background>
-            <ImageBrush ImageSource="/Ressource/fond.png" Stretch="UniformToFill"/>
-        </Grid.Background>
+        
 
         <!-- Background panel with shadow -->
-        <Border Background="#2F343F" CornerRadius="20" Padding="20" Width="750" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.95">
+        <Border Background="#3B4252" CornerRadius="20" Padding="20" Width="750" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.95">
             <Border.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="0" Opacity="0.5"/>
             </Border.Effect>
