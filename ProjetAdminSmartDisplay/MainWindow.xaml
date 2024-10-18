@@ -91,7 +91,7 @@
             <!-- Côté gauche avec le menu -->
             <Border Grid.Column="0" Background="#2F343F" CornerRadius="15" Margin="20,20,20,20"> <!-- Couleur d'arrière-plan gris bleu foncé -->
                 <Grid>
-                    <TextBlock Text="AdminPannel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" FontFamily="Miriam Mono CLM BoldOblique" HorizontalAlignment="Center" Margin="0,20,0,30"/>
+                    <TextBlock Text="AdminPanel" Foreground="#FFFFFF" FontSize="28" FontWeight="Bold" FontFamily="Miriam Mono CLM BoldOblique" HorizontalAlignment="Center" Margin="0,20,0,30"/>
                     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,80,0,0">
                         <Button Content="Ecran" Style="{StaticResource CustomButtonStyle}" Click="EcranButton_Click" FontFamily="Arial"/>
                         <Button Content="Envoyer un Document" Style="{StaticResource CustomButtonStyle}" Click="EnvoyerDocumentButton_Click" FontFamily="Arial"/>
